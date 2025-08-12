@@ -3,714 +3,1410 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free AI Video Creator - Unlimited Generation</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <title>EarnMax Pro</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-        body { font-family: 'Inter', sans-serif; }
-        
-        .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
-        
-        .card-hover {
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f3460 75%, #533483 100%);
+            min-height: 100vh;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 420px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 100vh;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+            position: relative;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .balance {
+            font-size: 32px;
+            font-weight: 800;
+            margin-bottom: 8px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .balance-label {
+            font-size: 14px;
+            opacity: 0.9;
+            font-weight: 500;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-tabs {
+            display: flex;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-tab {
+            flex: 1;
+            padding: 18px;
+            text-align: center;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+            color: rgba(255, 255, 255, 0.7);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            font-size: 14px;
+        }
+
+        .nav-tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: translateX(-50%);
+        }
+
+        .nav-tab.active {
+            color: #ffffff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .nav-tab.active::before {
+            width: 80%;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 25px;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 25px;
+            margin-bottom: 20px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.3);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .card:hover::before {
+            left: 100%;
+        }
+
+        .mission-header {
+            text-align: center;
+            margin-bottom: 25px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.2), rgba(118, 75, 162, 0.2));
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+
+        .mission-header h3 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .video-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .video-list {
+            max-height: 500px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(102, 126, 234, 0.5) transparent;
+        }
+
+        .video-list::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .video-list::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+        }
+
+        .video-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            border-radius: 3px;
+        }
+
+        .video-item {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .video-item:hover {
+            transform: translateX(5px);
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(102, 126, 234, 0.5);
+        }
+
+        .video-info {
+            flex: 1;
+        }
+
+        .video-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .video-reward {
+            color: #4ade80;
+            font-weight: 700;
+            font-size: 14px;
+            text-shadow: 0 0 10px rgba(74, 222, 128, 0.3);
+        }
+
+        .video-btn {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 100px;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .video-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.4);
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+        }
+
+        .video-btn:disabled {
+            background: rgba(255, 255, 255, 0.2);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .wallet-balance {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            padding: 35px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wallet-balance::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 15s linear infinite;
+        }
+
+        .balance-amount {
+            font-size: 42px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 2;
+        }
+
+        .wallet-actions {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .wallet-btn {
+            flex: 1;
+            padding: 18px;
+            border: none;
+            border-radius: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-size: 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .deposit-btn {
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);
+        }
+
+        .withdraw-btn {
+            background: linear-gradient(135deg, #ef4444, #dc2626);
+            color: white;
+            box-shadow: 0 4px 15px rgba(239, 68, 68, 0.3);
+        }
+
+        .wallet-btn:hover {
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .deposit-btn:hover {
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.4);
+        }
+
+        .withdraw-btn:hover {
+            box-shadow: 0 8px 25px rgba(239, 68, 68, 0.4);
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            padding: 25px;
+            border-radius: 18px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .stat-number {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .referral-code {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            border: 2px dashed rgba(102, 126, 234, 0.5);
+            text-align: center;
             transition: all 0.3s ease;
         }
-        
-        .card-hover:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+
+        .referral-code:hover {
+            border-color: rgba(102, 126, 234, 0.8);
+            background: rgba(102, 126, 234, 0.15);
         }
-        
-        .pulse-animation {
-            animation: pulse 2s infinite;
+
+        .code-display {
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 15px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
         }
-        
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+
+        .copy-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
         }
-        
-        .video-preview {
-            background: linear-gradient(45deg, #f0f0f0, #e0e0e0);
-            border: 2px dashed #ccc;
+
+        .copy-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
-        
-        .generating {
-            background: linear-gradient(45deg, #4f46e5, #7c3aed);
-            animation: shimmer 2s infinite;
+
+        .referral-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
         }
-        
-        @keyframes shimmer {
-            0% { background-position: -200px 0; }
-            100% { background-position: 200px 0; }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            animation: modalFadeIn 0.3s ease-out;
         }
-        
-        .feature-card {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-        
-        .crypto-bg {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+
+        .modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 35px;
+            border-radius: 25px;
+            width: 90%;
+            max-width: 420px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: modalSlideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes modalSlideIn {
+            from { transform: translate(-50%, -60%) scale(0.9); opacity: 0; }
+            to { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 18px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            margin: 20px 0;
+            font-size: 16px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal-btn {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 16px 30px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-weight: 600;
+            margin: 8px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .close-btn {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 255, 255, 0.2);
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            margin: 20px 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4ade80, #22c55e);
+            width: 0%;
+            transition: width 0.3s ease;
+            border-radius: 6px;
+            box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
+        }
+
+        .notification {
+            position: fixed;
+            top: 25px;
+            right: 25px;
+            background: linear-gradient(135deg, #4ade80, #22c55e);
+            color: white;
+            padding: 18px 25px;
+            border-radius: 15px;
+            display: none;
+            z-index: 1001;
+            font-weight: 600;
+            box-shadow: 0 8px 25px rgba(74, 222, 128, 0.4);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideInRight 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .deposit-history {
+            margin-top: 25px;
+        }
+
+        .deposit-item {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            border-left: 4px solid #fbbf24;
+            transition: all 0.3s ease;
+        }
+
+        .deposit-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateX(5px);
+        }
+
+        .usdt-address {
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            word-break: break-all;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #4ade80;
+            font-weight: 600;
+        }
+
+        .referral-input-section {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 25px;
+            border-radius: 18px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .referral-input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            margin-bottom: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .referral-input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .referral-input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .submit-referral-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .submit-referral-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+            
+            .balance {
+                font-size: 28px;
+            }
+            
+            .balance-amount {
+                font-size: 36px;
+            }
+            
+            .modal-content {
+                width: 95%;
+                padding: 25px;
+            }
         }
     </style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header -->
-    <header class="gradient-bg text-white py-6">
-        <div class="container mx-auto px-4">
-            <div class="flex justify-between items-center">
-                <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                        <span class="text-2xl">🎬</span>
-                    </div>
-                    <h1 class="text-2xl font-bold">Free AI Video Creator</h1>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="balance">$<span id="headerBalance">0.00</span></div>
+            <div class="balance-label">Your Total Earnings</div>
+        </div>
+
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('mission')">🎯 Mission</button>
+            <button class="nav-tab" onclick="showTab('wallet')">💰 Wallet</button>
+            <button class="nav-tab" onclick="showTab('referral')">👥 Referral</button>
+            <button class="nav-tab" onclick="showTab('admin')" id="adminTab" style="display: none;">🔐 Admin</button>
+        </div>
+
+        <!-- Mission Tab -->
+        <div id="mission" class="tab-content active">
+            <div class="mission-header">
+                <h3>🎬 Daily Video Missions</h3>
+                <p>Watch videos and earn $0.50 instantly!</p>
+                <div class="video-stats">
+                    <span>📺 Available: <span id="availableVideos">100</span></span>
+                    <span>✅ Completed: <span id="watchedCount">0</span></span>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <span class="bg-green-500 px-4 py-2 rounded-full text-sm font-medium">✨ UNLIMITED FREE</span>
-                    <div class="flex items-center space-x-2">
-                        <span class="text-sm">🪙</span>
-                        <span id="cryptoBalance" class="text-sm font-medium">0.00 BTC</span>
-                    </div>
-                    <button id="googleLoginBtn" class="bg-white text-purple-600 px-4 py-2 rounded-lg font-medium hover:bg-gray-100 transition-colors flex items-center space-x-2">
-                        <svg class="w-4 h-4" viewBox="0 0 24 24">
-                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
-                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
-                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
-                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
-                        </svg>
-                        <span>Login</span>
-                    </button>
+            </div>
+            <div id="videoList" class="video-list">
+                <!-- Videos will be generated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Wallet Tab -->
+        <div id="wallet" class="tab-content">
+            <div class="wallet-balance">
+                <div class="balance-amount">$<span id="walletBalance">0.00</span></div>
+                <div>Available Balance</div>
+            </div>
+
+            <div class="wallet-actions">
+                <button class="wallet-btn deposit-btn" onclick="showDepositModal()">
+                    💳 Deposit
+                </button>
+                <button class="wallet-btn withdraw-btn" onclick="showWithdrawModal()">
+                    🏦 Withdraw
+                </button>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-number">$<span id="totalEarned">0.00</span></div>
+                <div class="stat-label">Total Earned</div>
+            </div>
+
+            <div class="deposit-history">
+                <h4 style="margin-bottom: 20px; font-weight: 600;">📋 Deposit History</h4>
+                <div id="depositList">
+                    <!-- Deposit history will be shown here -->
                 </div>
             </div>
         </div>
-    </header>
-// server.js
-const express = require("express");
-const app = express();
-app.use(express.json());
 
-// Պահում ենք մոնոգեն բալանսի օրինակ (իրականում պետք է DB)
-let user = {
-  balances: {
-    USDT: 0,
-    BTC: 0,
-    DASH: 0,
-    ETC: 0,
-    TRX: 0,
-  },
-  videosCount: 0,
-};
+        <!-- Referral Tab -->
+        <div id="referral" class="tab-content">
+            <div class="referral-code">
+                <div class="code-display" id="referralCode">REF123456</div>
+                <button class="copy-btn" onclick="copyReferralCode()">📋 Copy My Code</button>
+            </div>
 
-const VIDEO_PRICE = 0.03;
-const DEPOSIT_MIN = 10;
-const WITHDRAW_MIN = 50;
-const WITHDRAW_FEE = 10;
+            <div class="referral-input-section">
+                <h4 style="margin-bottom: 20px; font-weight: 600;">🎁 Enter Friend's Referral ID</h4>
+                <input type="text" class="referral-input" id="referralInput" placeholder="Enter referral ID to get 5% bonus">
+                <button class="submit-referral-btn" onclick="submitReferralId()">🚀 Activate Bonus</button>
+            </div>
 
-app.get("/api/status", (req, res) => {
-  res.json({
-    balances: user.balances,
-    videosCount: user.videosCount,
-  });
-});
-
-app.post("/api/uploadVideo", (req, res) => {
-  user.videosCount++;
-  user.balances.USDT += VIDEO_PRICE;
-  user.balances.USDT = +user.balances.USDT.toFixed(2);
-  res.json({
-    success: true,
-    videosCount: user.videosCount,
-    balances: user.balances,
-    message: `Վիդեո բեռնվեց, վաստակեցիք $${VIDEO_PRICE} USDT`,
-  });
-});
-
-app.post("/api/deposit", (req, res) => {
-  const { currency, amount } = req.body;
-  if (!currency || typeof amount !== "number" || amount < DEPOSIT_MIN) {
-    return res.json({
-      success: false,
-      error: `Դեպոզիտի նվազագույն գումարը ${DEPOSIT_MIN}$ է:`,
-    });
-  }
-  if (!(currency in user.balances)) {
-    return res.json({ success: false, error: "Անհայտ արժույթ" });
-  }
-  user.balances[currency] += amount;
-  user.balances[currency] = +user.balances[currency].toFixed(2);
-  res.json({ success: true, balances: user.balances });
-});
-
-app.post("/api/withdraw", (req, res) => {
-  const { currency, amount } = req.body;
-  if (!currency || typeof amount !== "number" || amount < WITHDRAW_MIN) {
-    return res.json({
-      success: false,
-      error: `Withdraw-ի նվազագույն գումարը ${WITHDRAW_MIN}$ է:`,
-    });
-  }
-  if (!(currency in user.balances)) {
-    return res.json({ success: false, error: "Անհայտ արժույթ" });
-  }
-
-  if (user.balances[currency] < amount + WITHDRAW_FEE) {
-    return res.json({
-      success: false,
-      error: `Ձեր բալանսը պետք է լինի առնվազն ${
-        amount + WITHDRAW_FEE
-      }$, ներառյալ ${WITHDRAW_FEE}$ վճարը:`,
-    });
-  }
-
-  user.balances[currency] -= amount + WITHDRAW_FEE;
-  user.balances[currency] = +user.balances[currency].toFixed(2);
-  res.json({
-    success: true,
-    balances: user.balances,
-    message: `Withdraw $${amount} հաջողությամբ կատարվեց, վճար $${WITHDRAW_FEE} կպահպանվի։`,
-  });
-});
-
-const PORT = 3001;
-app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
-
-    <div class="container mx-auto px-4 py-8">
-        <!-- Free Features Banner -->
-        <div class="bg-gradient-to-r from-green-400 to-blue-500 text-white rounded-xl p-6 mb-8 text-center">
-            <h2 class="text-3xl font-bold mb-2">🎉 100% Free Forever!</h2>
-            <p class="text-lg opacity-90">Generate unlimited AI videos • All features included • No payments required</p>
-        </div>
-
-        <div class="grid lg:grid-cols-3 gap-8">
-            <!-- Main Creation Panel -->
-            <div class="lg:col-span-2">
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h2 class="text-2xl font-bold text-gray-800 mb-6">Create Your AI Video - Completely Free</h2>
-                    
-                    <!-- Text Input -->
-                    <div class="mb-6">
-                        <label class="block text-sm font-medium text-gray-700 mb-2">Video Description</label>
-                        <textarea 
-                            id="videoPrompt"
-                            placeholder="Describe any video you want to create... (e.g., 'A magical forest with glowing butterflies', 'A robot dancing in space', 'A cat playing piano')"
-                            class="w-full h-32 p-4 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent resize-none"
-                        ></textarea>
-                        <div class="flex justify-between items-center mt-2">
-                            <span class="text-sm text-green-600 font-medium">✓ No limits on creativity</span>
-                            <span id="charCount" class="text-sm text-gray-400">0/1000</span>
-                        </div>
-                    </div>
-
-                    <!-- Advanced Settings -->
-                    <div class="grid md:grid-cols-3 gap-4 mb-6">
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Duration</label>
-                            <select id="durationSelect" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                                <option value="5">50seconds</option>
-                                <option value="10">100 seconds</option>
-                                <option value="15">150seconds</option>
-                                <option value="30">300 seconds</option>
-                                <option value="60">1000 minute</option>
-                                <option value="120">1500 minutes</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Style</label>
-                            <select id="styleSelect" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                                <option>Realistic</option>
-                                <option>Animated</option>
-                                <option>Cinematic</option>
-                                <option>Cartoon</option>
-                                <option>Cyberpunk</option>
-                                <option>Fantasy</option>
-                                <option>Sci-Fi</option>
-                                <option>Vintage</option>
-                            </select>
-                        </div>
-                        <div>
-                            <label class="block text-sm font-medium text-gray-700 mb-2">Quality</label>
-                            <select id="qualitySelect" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
-                                <option>HD (1080p)</option>
-                                <option>4K (2160p)</option>
-                                <option>8K (4320p)</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- Generate Button -->
-                    <button 
-                        id="generateBtn"
-                        class="w-full bg-gradient-to-r from-green-500 to-blue-600 text-white py-4 rounded-lg font-semibold text-lg hover:from-green-600 hover:to-blue-700 transition-all duration-300 transform hover:scale-105"
-                    >
-                        🚀 Generate Video - FREE & UNLIMITED
-                    </button>
+            <div class="referral-stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="referralCount">0</div>
+                    <div class="stat-label">👥 Referrals</div>
                 </div>
-async function generateVideo(prompt, duration, style, quality) {
-    try {
-        const response = await fetch('https://api.example.com/generate-video', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer Քո_API_Բանալին'
-            },
-            body: JSON.stringify({
-                prompt: prompt,
-                duration: duration,
-                style: style,
-                quality: quality
-            })
-        });
-        const data = await response.json();
-
-        if (data.videoUrl) {
-            // Այստեղ տեղադրիր տեսանյութը preview-ում
-            videoPreview.innerHTML = `
-                <video controls class="w-full h-full rounded-lg">
-                    <source src="${data.videoUrl}" type="video/mp4" />
-                    Ձեր դիտարկիչը չի աջակցում տեսանյութեր:
-                </video>
-            `;
-            videoControls.classList.remove('hidden');
-        } else {
-            alert('Տեսանյութի ստեղծման սխալ, փորձեք հետո։');
-        }
-    } catch (error) {
-        alert('Սխալ՝ ' + error.message);
-    }
-}
-
-                <!-- Video Preview -->
-                <div class="bg-white rounded-xl shadow-lg p-6 mt-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-xl font-bold text-gray-800">Video Preview</h3>
-                        <div class="flex space-x-2">
-                            <span class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm">Free</span>
-                            <span class="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-sm">No Watermark</span>
-                        </div>
-                    </div>
-                    <div id="videoPreview" class="video-preview rounded-lg h-64 flex items-center justify-center">
-                        <div class="text-center text-gray-500">
-                            <div class="text-4xl mb-2">🎥</div>
-                            <p class="text-lg font-medium">Your AI-generated video will appear here</p>
-                            <p class="text-sm mt-2">No limits • No watermarks • Full quality</p>
-                        </div>
-                    </div>
-                    <div id="videoControls" class="mt-4 flex justify-center space-x-4 hidden">
-                        <button id="downloadBtn" class="bg-green-600 text-white px-6 py-2 rounded-lg hover:bg-green-700 transition-colors flex items-center space-x-2">
-                            <span>📥</span>
-                            <span>Download MP4</span>
-                        </button>
-                        <button id="shareBtn" class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors flex items-center space-x-2">
-                            <span>🔗</span>
-                            <span>Share</span>
-                        </button>
-                        <button id="cryptoBtn" class="crypto-bg text-white px-6 py-2 rounded-lg hover:opacity-90 transition-opacity flex items-center space-x-2">
-                            <span>🪙</span>
-                            <span>Earn Crypto</span>
-                        </button>
-                    </div>
+                <div class="stat-card">
+                    <div class="stat-number">$<span id="referralEarnings">0.00</span></div>
+                    <div class="stat-label">💰 Referral Earnings</div>
                 </div>
             </div>
 
-            <!-- Sidebar -->
-            <div class="space-y-6">
-                <!-- Free Features -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">🎁 Free Features</h3>
-                    
-                    <div class="space-y-3">
-                        <div class="flex items-center space-x-3 p-3 bg-green-50 rounded-lg">
-                            <span class="text-green-600 text-xl">✅</span>
-                            <div>
-                                <p class="font-medium text-gray-800">Unlimited Videos</p>
-                                <p class="text-sm text-gray-600">Generate as many as you want</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-3 p-3 bg-blue-50 rounded-lg">
-                            <span class="text-blue-600 text-xl">🎨</span>
-                            <div>
-                                <p class="font-medium text-gray-800">All Styles Available</p>
-                                <p class="text-sm text-gray-600">8 different video styles</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-3 p-3 bg-purple-50 rounded-lg">
-                            <span class="text-purple-600 text-xl">🎬</span>
-                            <div>
-                                <p class="font-medium text-gray-800">Up to 2 Minutes</p>
-                                <p class="text-sm text-gray-600">Long-form video support</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-3 p-3 bg-yellow-50 rounded-lg">
-                            <span class="text-yellow-600 text-xl">💎</span>
-                            <div>
-                                <p class="font-medium text-gray-800">8K Quality</p>
-                                <p class="text-sm text-gray-600">Ultra-high resolution</p>
-                            </div>
-                        </div>
-                        
-                        <div class="flex items-center space-x-3 p-3 bg-pink-50 rounded-lg">
-                            <span class="text-pink-600 text-xl">🪙</span>
-                            <div>
-                                <p class="font-medium text-gray-800">Earn Crypto</p>
-                                <p class="text-sm text-gray-600">Get rewards for creating</p>
-                            </div>
-                        </div>
-                    </div>
+            <div class="card">
+                <p style="color: rgba(255, 255, 255, 0.8); font-size: 14px; text-align: center; line-height: 1.6;">
+                    🎯 <strong>How it works:</strong><br>
+                    • Share your referral code with friends<br>
+                    • Earn 5% commission from their video earnings<br>
+                    • Use a friend's code to get 5% bonus on your earnings!
+                </p>
+            </div>
+        </div>
+
+        <!-- Admin Tab -->
+        <div id="admin" class="tab-content">
+            <div class="card">
+                <h3 style="text-align: center; margin-bottom: 25px; color: #ef4444;">🔐 Admin Panel</h3>
+                
+                <div style="background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 25px; border: 2px solid rgba(239, 68, 68, 0.3);">
+                    <h4 style="margin-bottom: 15px;">🔑 Admin Access</h4>
+                    <input type="password" class="modal-input" id="adminPassword" placeholder="Enter admin password" style="margin: 10px 0;">
+                    <button class="modal-btn" onclick="verifyAdmin()" style="width: 100%;">🚪 Login</button>
                 </div>
 
-                <!-- Crypto Wallet -->
-                <div class="crypto-bg text-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold mb-4">🪙 Crypto Wallet</h3>
-                    <div class="space-y-4">
-                        <div class="bg-white/20 rounded-lg p-4">
-                            <div class="flex justify-between items-center mb-2">
-                                <span class="font-medium">Your Balance</span>
-                                <span class="text-lg font-bold" id="cryptoDisplay">0.00000000 BTC</span>
-                            </div>
-                            <div class="text-sm opacity-90">≈ $0.00 USD</div>
+                <div id="adminContent" style="display: none;">
+                    <div class="card" style="background: rgba(74, 222, 128, 0.1); border: 1px solid rgba(74, 222, 128, 0.3);">
+                        <h4 style="margin-bottom: 20px; color: #4ade80;">📋 Pending Deposits</h4>
+                        <div id="adminDepositList">
+                            <!-- Pending deposits will be shown here -->
                         </div>
-                        
-                        <!-- Deposit/Withdraw Buttons -->
-                        <div class="grid grid-cols-2 gap-2">
-                            <button id="depositBtc" class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-lg transition-colors text-sm font-medium">
-                                💰 Deposit
-                                1GcMCSNAzRivLPu3xHATuf8DNgun14q52T
-                            </button>
-                            <button id="withdrawBtn" class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-lg transition-colors text-sm font-medium">
-                                💸 Withdraw
-                            </button>
-                        </div>
-                        
-                        <div class="space-y-2">
-                            <div class="flex justify-between text-sm">
-                                <span>Per video created:</span>
-                                <span class="font-medium">+0.00000001 BTC</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span>Per video shared:</span>
-                                <span class="font-medium">+0.00000002 BTC</span>
-                            </div>
-                            <div class="flex justify-between text-sm">
-                                <span>Daily bonus:</span>
-                                <span class="font-medium">+0.00000001 BTC</span>
-                            </div>
-                        </div>
-                        
-                        <button id="claimDailyBtn" class="w-full bg-white/20 hover:bg-white/30 text-white py-2 rounded-lg transition-colors">
-                            🎁 Claim Daily Bonus
+                    </div>
+
+                    <div class="card" style="margin-top: 20px;">
+                        <h4 style="margin-bottom: 20px;">⚙️ Admin Actions</h4>
+                        <button class="wallet-btn" onclick="clearAllData()" style="background: linear-gradient(135deg, #ef4444, #dc2626); width: 100%; margin-bottom: 10px;">
+                            🗑️ Clear All User Data
                         </button>
-                    </div>
-                </div>
-
-                <!-- Recent Videos -->
-                <div class="bg-white rounded-xl shadow-lg p-6">
-                    <h3 class="text-xl font-bold text-gray-800 mb-4">📹 Your Videos</h3>
-                    <div id="recentVideos" class="space-y-3">
-                        <div class="text-center text-gray-500 py-8">
-                            <div class="text-3xl mb-2">🎬</div>
-                            <p>Your generated videos will appear here</p>
-                        </div>
+                        <button class="wallet-btn" onclick="resetDailyVideos()" style="background: linear-gradient(135deg, #f59e0b, #d97706); width: 100%;">
+                            🔄 Reset Daily Videos
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Deposit Modal -->
+    <div id="depositModal" class="modal">
+        <div class="modal-content">
+            <h3>💳 Deposit USDT</h3>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                <strong>⚠️ Minimum deposit: $15.00</strong>
+            </p>
+            <div style="background: rgba(74, 222, 128, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px dashed rgba(74, 222, 128, 0.5);">
+                <p style="font-weight: 600; margin-bottom: 15px;">📤 Send USDT to this address:</p>
+                <div class="usdt-address">TJu2Dsrv4FA1cV4yUWTzbyFUqxX5hoHkec</div>
+                <button class="copy-btn" onclick="copyUSDTAddress()">📋 Copy Address</button>
+            </div>
+            <input type="number" class="modal-input" id="depositAmount" placeholder="Enter amount ($15 minimum)" min="15" step="0.01">
+            
+            <div style="background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid rgba(239, 68, 68, 0.3);">
+                <p style="font-weight: 600; margin-bottom: 15px; color: #ef4444;">🔐 MULTI-STEP SECURITY VERIFICATION</p>
+                <p style="font-size: 14px; margin-bottom: 15px; color: rgba(255, 255, 255, 0.8);">⚠️ <strong>ANTI-FRAUD PROTECTION:</strong> Complete ALL verification steps to prove you actually sent USDT:</p>
+                
+                <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border-left: 4px solid #ef4444;">
+                    <p style="font-weight: 600; margin-bottom: 10px; color: #ef4444;">STEP 1: Prove Address Knowledge</p>
+                    <input type="text" class="modal-input" id="verifyAddress" placeholder="Enter the EXACT USDT address you sent money to" style="margin: 5px 0;">
+                </div>
+                
+                <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border-left: 4px solid #f59e0b;">
+                    <p style="font-weight: 600; margin-bottom: 10px; color: #f59e0b;">STEP 2: Transaction Hash Verification</p>
+                    <input type="text" class="modal-input" id="verifyTxHash" placeholder="Enter your USDT transaction hash (TxID)" style="margin: 5px 0;">
+                    <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">Find this in your wallet's transaction history</p>
+                </div>
+                
+                <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border-left: 4px solid #8b5cf6;">
+                    <p style="font-weight: 600; margin-bottom: 10px; color: #8b5cf6;">STEP 3: Wallet Verification</p>
+                    <input type="text" class="modal-input" id="verifySenderAddress" placeholder="Enter YOUR wallet address (sender address)" style="margin: 5px 0;">
+                    <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">The address you sent USDT FROM</p>
+                </div>
+                
+                <div style="background: rgba(239, 68, 68, 0.2); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <p style="font-size: 12px; color: #ef4444; font-weight: 600; text-align: center;">
+                        🚨 WARNING: All information must be 100% accurate<br>
+                        Only users who actually sent USDT will have this information<br>
+                        Fake deposits will be automatically rejected and reported
+                    </p>
+                </div>
+            </div>
+            
+            <div>
+                <button class="modal-btn" onclick="processDeposit()">✅ I Sent USDT</button>
+                <button class="modal-btn close-btn" onclick="closeModal('depositModal')">❌ Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div id="withdrawModal" class="modal">
+        <div class="modal-content">
+            <h3>🏦 Withdraw Funds</h3>
+            <p style="color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                <strong>⚠️ Minimum withdrawal: $15.00</strong>
+            </p>
+            <input type="number" class="modal-input" id="withdrawAmount" placeholder="Enter amount ($15 minimum)" min="15" step="0.01">
+            <div>
+                <button class="modal-btn" onclick="processWithdraw()">💸 Withdraw</button>
+                <button class="modal-btn close-btn" onclick="closeModal('withdrawModal')">❌ Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Video Modal -->
+    <div id="videoModal" class="modal">
+        <div class="modal-content">
+            <h3>🎬 Watching Video...</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="videoProgress"></div>
+            </div>
+            <p id="videoStatus">⏳ Please wait while the video loads...</p>
+            <button class="modal-btn close-btn" onclick="closeModal('videoModal')" id="videoCloseBtn" style="display: none;">✅ Close</button>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification"></div>
+
     <script>
-        let cryptoBalance = 0;
-        let videoCount = 0;
-        let dailyBonusClaimed = false;
+        // App state
+        let appData = {
+            balance: 0.00,
+            totalEarned: 0.00,
+            referralCount: 0,
+            referralEarnings: 0.00,
+            referralCode: 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+            watchedVideos: [],
+            pendingDeposits: []
+        };
 
-        // Character counter
-        const textarea = document.getElementById('videoPrompt');
-        const charCount = document.getElementById('charCount');
-        
-        textarea.addEventListener('input', function() {
-            const count = this.value.length;
-            charCount.textContent = `${count}/1000`;
-            if (count > 1000) {
-                charCount.classList.add('text-red-500');
-            } else {
-                charCount.classList.remove('text-red-500');
+        // Load data from localStorage
+        function loadData() {
+            const saved = localStorage.getItem('earnMaxProData');
+            if (saved) {
+                appData = { ...appData, ...JSON.parse(saved) };
             }
-        });
-
-        // Update crypto display
-        function updateCryptoDisplay() {
-            const btcAmount = (cryptoBalance / 100000000).toFixed(8);
-            const usdAmount = (cryptoBalance * 0.0004).toFixed(2);
-            document.getElementById('cryptoDisplay').textContent = `${btcAmount} BTC`;
-            document.getElementById('cryptoBalance').textContent = `${btcAmount} BTC`;
+            updateDisplay();
         }
 
-        // Add video to recent list
-        function addToRecentVideos(prompt, duration, style) {
-            const recentVideos = document.getElementById('recentVideos');
-            if (videoCount === 0) {
-                recentVideos.innerHTML = '';
-            }
-            
-            const videoElement = document.createElement('div');
-            videoElement.className = 'flex items-center space-x-3 p-3 bg-gray-50 rounded-lg';
-            videoElement.innerHTML = `
-                <div class="w-12 h-8 bg-gradient-to-r from-purple-400 to-pink-500 rounded flex items-center justify-center">
-                    <span class="text-white text-xs">▶</span>
-                </div>
-                <div class="flex-1">
-                    <p class="text-sm font-medium text-gray-800">${prompt.substring(0, 30)}${prompt.length > 30 ? '...' : ''}</p>
-                    <p class="text-xs text-gray-500">${duration}s • ${style} • Just now</p>
-                </div>
-                <div class="text-xs text-green-600 font-medium">+0.00000001 BTC</div>
-            `;
-            recentVideos.insertBefore(videoElement, recentVideos.firstChild);
-            
-            // Keep only last 5 videos
-            while (recentVideos.children.length > 5) {
-                recentVideos.removeChild(recentVideos.lastChild);
-            }
+        // Save data to localStorage
+        function saveData() {
+            localStorage.setItem('earnMaxProData', JSON.stringify(appData));
         }
 
-        // Generate video functionality
-        const generateBtn = document.getElementById('generateBtn');
-        const videoPreview = document.getElementById('videoPreview');
-        const videoControls = document.getElementById('videoControls');
+        // Update display
+        function updateDisplay() {
+            document.getElementById('headerBalance').textContent = appData.balance.toFixed(2);
+            document.getElementById('walletBalance').textContent = appData.balance.toFixed(2);
+            document.getElementById('totalEarned').textContent = appData.totalEarned.toFixed(2);
+            document.getElementById('referralCount').textContent = appData.referralCount;
+            document.getElementById('referralEarnings').textContent = appData.referralEarnings.toFixed(2);
+            document.getElementById('referralCode').textContent = appData.referralCode;
+            updateDepositHistory();
+        }
 
-        generateBtn.addEventListener('click', function() {
-            const prompt = textarea.value.trim();
-            
-            if (!prompt) {
-                alert('Please enter a video description first!');
+        // Update deposit history display
+        function updateDepositHistory() {
+            const depositList = document.getElementById('depositList');
+            if (!appData.pendingDeposits || appData.pendingDeposits.length === 0) {
+                depositList.innerHTML = '<div class="card"><p style="color: rgba(255, 255, 255, 0.6); text-align: center;">📭 No deposits yet</p></div>';
                 return;
             }
 
-            const duration = document.getElementById('durationSelect').value;
-            const style = document.getElementById('styleSelect').value;
-            const quality = document.getElementById('qualitySelect').value;
-
-            // Start generation process
-            generateBtn.disabled = true;
-            generateBtn.innerHTML = '<div class="flex items-center justify-center"><div class="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>Generating your free video...</div>';
-            
-            videoPreview.innerHTML = `
-                <div class="text-center">
-                    <div class="animate-pulse text-4xl mb-2">🎬</div>
-                    <p class="text-purple-600 font-medium text-lg">Creating "${prompt.substring(0, 40)}${prompt.length > 40 ? '...' : ''}"</p>
-                    <p class="text-sm text-gray-600 mt-2">${duration}s • ${style} • ${quality}</p>
-                    <div class="w-full bg-gray-200 rounded-full h-3 mt-4">
-                        <div class="bg-gradient-to-r from-purple-600 to-pink-600 h-3 rounded-full animate-pulse" style="width: 0%" id="progressBar"></div>
-                    </div>
-                    <p class="text-xs text-gray-500 mt-2">Processing with AI... This may take a moment</p>
-                </div>
-            `;
-
-            // Simulate realistic progress
-            let progress = 0;
-            const progressBar = document.getElementById('progressBar');
-            const progressInterval = setInterval(() => {
-                progress += Math.random() * 8 + 2;
-                if (progress > 100) progress = 100;
-                progressBar.style.width = progress + '%';
+            depositList.innerHTML = '';
+            appData.pendingDeposits.forEach(deposit => {
+                const depositItem = document.createElement('div');
+                depositItem.className = 'deposit-item';
                 
-                if (progress >= 100) {
-                    clearInterval(progressInterval);
-                    
-                    // Show completed video
-                    setTimeout(() => {
-                        const gradients = [
-                            'from-purple-400 via-pink-500 to-red-500',
-                            'from-blue-400 via-purple-500 to-pink-500',
-                            'from-green-400 via-blue-500 to-purple-500',
-                            'from-yellow-400 via-red-500 to-pink-500',
-                            'from-indigo-400 via-purple-500 to-pink-500'
-                        ];
-                        const randomGradient = gradients[Math.floor(Math.random() * gradients.length)];
-                        
-                        videoPreview.innerHTML = `
-                            <div class="relative w-full h-full bg-gradient-to-br ${randomGradient} rounded-lg overflow-hidden">
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="text-center text-white">
-                                        <div class="text-6xl mb-4">🎥</div>
-                                        <h4 class="text-xl font-bold mb-2">Video Generated Successfully!</h4>
-                                        <p class="text-sm opacity-90 mb-4">"${prompt.substring(0, 50)}${prompt.length > 50 ? '...' : ''}"</p>
-                                        <button class="bg-white/20 backdrop-blur-sm px-6 py-3 rounded-full hover:bg-white/30 transition-colors text-lg">
-                                            ▶ Play ${duration}s Video
-                                        </button>
-                                    </div>
-                                </div>
-                                <div class="absolute top-4 right-4 bg-black/50 text-white px-3 py-1 rounded-full text-sm">
-                                    ${quality} • ${duration}s
-                                </div>
-                                <div class="absolute top-4 left-4 bg-green-500 text-white px-3 py-1 rounded-full text-sm">
-                                    FREE • No Watermark
-                                </div>
-                            </div>
-                        `;
-                        
-                        videoControls.classList.remove('hidden');
-                        generateBtn.disabled = false;
-                        generateBtn.innerHTML = '🚀 Generate Another Video - FREE & UNLIMITED';
-                        
-                        // Add crypto reward
-                        cryptoBalance += 10; // 0.0000001 BTC in satoshis
-                        updateCryptoDisplay();
-                        
-                        // Add to recent videos
-                        videoCount++;
-                        addToRecentVideos(prompt, duration, style);
-                        
-                        // Show success message
-                        setTimeout(() => {
-                            alert(`🎉 Video generated successfully!\n💰 You earned 0.00000001 BTC!\n🎬 Total videos created: ${videoCount}`);
-                        }, 500);
-                        
-                    }, 1500);
-                }
-            }, 300);
-        });
-
-        // Download functionality
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            alert('🎉 Download started!\n\nYour high-quality video is being prepared for download. In a real application, this would download the actual MP4 file with no watermarks!');
-        });
-
-        // Share functionality
-        document.getElementById('shareBtn').addEventListener('click', function() {
-            cryptoBalance += 20; // 0.0000002 BTC bonus for sharing
-            updateCryptoDisplay();
-            alert('🔗 Share link copied!\n💰 Bonus: +0.00000002 BTC for sharing!\n\nYour video link has been copied to clipboard. Share it on social media to show off your AI creation!');
-        });
-
-        // Crypto earn functionality
-        document.getElementById('cryptoBtn').addEventListener('click', function() {
-            const bonusAmount = Math.floor(Math.random() * 500) + 500;
-            cryptoBalance += bonusAmount;
-            updateCryptoDisplay();
-            alert(`🪙 Crypto bonus earned!\n💰 +${(bonusAmount/100000000).toFixed(8)} BTC\n\nKeep creating videos to earn more cryptocurrency rewards!`);
-        });
-
-        // Google Login
-        document.getElementById('googleLoginBtn').addEventListener('click', function() {
-            // Simulate Google login process
-            this.innerHTML = '<div class="flex items-center space-x-2"><div class="animate-spin rounded-full h-4 w-4 border-b-2 border-purple-600"></div><span>Logging in...</span></div>';
-            this.disabled = true;
-            
-            setTimeout(() => {
-                // Simulate successful login
-                const userName = 'John Doe';
-                const userEmail = 'john.doe@gmail.com';
+                const statusColor = deposit.status === 'pending' ? '#fbbf24' : '#4ade80';
+                const statusIcon = deposit.status === 'pending' ? '⏳' : '✅';
+                const statusText = deposit.status === 'pending' ? 'Pending Verification' : 'Completed';
                 
-                this.innerHTML = `
-                    <div class="flex items-center space-x-2">
-                        <div class="w-6 h-6 bg-purple-600 rounded-full flex items-center justify-center text-white text-xs">
-                            ${userName.charAt(0)}
+                depositItem.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                        <div>
+                            <div style="font-weight: 600; font-size: 18px;">$${deposit.amount.toFixed(2)}</div>
+                            <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">${new Date(deposit.timestamp).toLocaleDateString()}</div>
                         </div>
-                        <span class="text-sm">${userName}</span>
+                        <div style="color: ${statusColor}; font-weight: 600; font-size: 14px;">
+                            ${statusIcon} ${statusText}
+                        </div>
                     </div>
                 `;
-                this.disabled = false;
-                this.classList.remove('hover:bg-gray-100');
-                this.classList.add('bg-gray-100');
-                
-                // Welcome bonus
-                cryptoBalance += 10000; // 0.0001 BTC welcome bonus
-                updateCryptoDisplay();
-                
-                alert(`🎉 Welcome ${userName}!\n📧 Logged in as: ${userEmail}\n💰 Welcome bonus: +0.00000001 BTC\n\nYour account is now connected and your crypto earnings are secured!`);
-            }, 2000);
-        });
-
-        // Deposit functionality
-        document.getElementById('depositBtn').addEventListener('click', function() {
-            const hasDeposited = localStorage.getItem('hasDeposited') === 'true';
-            
-            if (hasDeposited) {
-                alert('✅ Deposit Status: Active\n\n💰 You have already made your $10 minimum deposit.\n🔓 Withdrawals are unlocked for your account.\n\nYou can make additional deposits anytime to increase your balance!');
-                return;
-            }
-            
-            const depositOptions = [
-                'Bitcoin (BTC) - $10 minimum',
-                'Ethereum (ETH) - $10 minimum', 
-                'USDT (Tether) - $10 minimum',
-                'Litecoin (LTC) - $10 minimum',
-                'Dogecoin (DOGE) - $10 minimum'
-            ];
-            
-            const selectedCrypto = depositOptions[Math.floor(Math.random() * depositOptions.length)];
-            const depositAddress = generateRandomAddress();
-            
-            const confirmDeposit = confirm(`💰 Make $10 Minimum Deposit\n\nCrypto: ${selectedCrypto}\n📍 Address: ${depositAddress}\n\n🔓 This will unlock withdrawals for your account.\n\nClick OK to simulate deposit completion.`);
-            
-            if (confirmDeposit) {
-                // Simulate deposit completion
-                localStorage.setItem('hasDeposited', 'true');
-                cryptoBalance += 1000000; // Add $10 worth of BTC (0.001 BTC)
-                updateCryptoDisplay();
-                alert('🎉 Deposit Successful!\n\n💰 $10 deposited (+0.001 BTC)\n🔓 Withdrawals now unlocked!\n✅ You can now withdraw your earnings anytime.\n\nStart creating videos to earn more crypto!');
-            }
-        });
-
-        // Withdraw functionality  
-        document.getElementById('withdrawBtn').addEventListener('click', function() {
-            // Check if user has made $10 deposit
-            const hasDeposited = localStorage.getItem('hasDeposited') === 'true';
-            
-            if (!hasDeposited) {
-                alert('🔒 Withdrawal Locked\n\n💰 To unlock withdrawals, you need to make a minimum $10 deposit first.\n\n✅ This helps prevent abuse and ensures platform security.\n\nClick "Deposit" to add funds and unlock withdrawals!');
-                return;
-            }
-            
-            if (cryptoBalance < 10000) { // Minimum 0.0001 BTC
-                alert('❌ Insufficient Balance\n\nMinimum withdrawal: 0.0001 BTC\nYour balance: ' + (cryptoBalance/100000000).toFixed(8) + ' BTC\n\nCreate more videos to earn crypto rewards!');
-                return;
-            }
-            
-            const withdrawAmount = prompt('💸 Enter withdrawal amount (BTC):\n\nAvailable: ' + (cryptoBalance/100000000).toFixed(8) + ' BTC\nMinimum: 0.0001 BTC');
-            
-            if (withdrawAmount && parseFloat(withdrawAmount) > 0) {
-                const withdrawSatoshis = Math.floor(parseFloat(withdrawAmount) * 100000000);
-                if (withdrawSatoshis <= cryptoBalance && withdrawSatoshis >= 10000) {
-                    const walletAddress = prompt('📍 Enter your Bitcoin wallet address:');
-                    if (walletAddress) {
-                        cryptoBalance -= withdrawSatoshis;
-                        updateCryptoDisplay();
-                        alert(`✅ Withdrawal Initiated!\n\n💰 Amount: ${withdrawAmount} BTC\n📍 To: ${walletAddress.substring(0, 20)}...\n⏱️ Processing time: 1-3 hours\n\n🎉 Your crypto has been sent!`);
-                    }
-                } else {
-                    alert('❌ Invalid amount. Please check your balance and minimum withdrawal limit.');
-                }
-            }
-        });
-
-        // Generate random crypto address for demo
-        function generateRandomAddress() {
-            const chars = '123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
-            let address = '1';
-            for (let i = 0; i < 33; i++) {
-                address += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return address;
+                depositList.appendChild(depositItem);
+            });
         }
 
-        // Daily bonus
-        document.getElementById('claimDailyBtn').addEventListener('click', function() {
-            if (!dailyBonusClaimed) {
-                cryptoBalance += 50; // 0.00000005 BTC daily bonus
-                updateCryptoDisplay();
-                dailyBonusClaimed = true;
-                this.innerHTML = '✅ Claimed Today';
-                this.disabled = true;
-                this.classList.add('opacity-50');
-                alert('🎁 Daily bonus claimed!\n💰 +0.00000005 BTC added to your balance!\n\nCome back tomorrow for another bonus!');
-            }
-        });
+        // Tab switching
+        function showTab(tabName) {
+            // Hide all tabs
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
 
-        // Initialize
-        updateCryptoDisplay();
+            // Show selected tab
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Generate video list
+        function generateVideoList() {
+            const videoList = document.getElementById('videoList');
+            videoList.innerHTML = '';
+            
+            for (let i = 1; i <= 100; i++) {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+                
+                const isWatched = appData.watchedVideos.includes(i);
+                const earnings = appData.usedReferralId ? 0.525 : 0.50;
+                
+                videoItem.innerHTML = `
+                    <div class="video-info">
+                        <div class="video-title">🎬 Video #${i}</div>
+                        <div class="video-reward">💰 +$${earnings.toFixed(3)}</div>
+                    </div>
+                    <button class="video-btn" id="videoBtn${i}" onclick="watchVideo(${i})" ${isWatched ? 'disabled' : ''}>
+                        ${isWatched ? '✅ Completed' : '▶️ Watch'}
+                    </button>
+                `;
+                
+                videoList.appendChild(videoItem);
+            }
+            
+            updateVideoStats();
+        }
+
+        // Update video statistics
+        function updateVideoStats() {
+            const watchedCount = appData.watchedVideos.length;
+            const availableCount = 100 - watchedCount;
+            
+            document.getElementById('watchedCount').textContent = watchedCount;
+            document.getElementById('availableVideos').textContent = availableCount;
+        }
+
+        // Watch video function
+        function watchVideo(videoId) {
+            if (appData.watchedVideos.includes(videoId)) {
+                showNotification('⚠️ You have already watched this video today!', 'warning');
+                return;
+            }
+
+            document.getElementById('videoModal').style.display = 'block';
+            document.getElementById('videoProgress').style.width = '0%';
+            document.getElementById('videoStatus').textContent = '🎬 Video starting...';
+            document.getElementById('videoCloseBtn').style.display = 'none';
+
+            // Simulate video watching progress
+            let progress = 0;
+            const interval = setInterval(() => {
+                progress += 2;
+                document.getElementById('videoProgress').style.width = progress + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    // Calculate earnings with referral bonus
+                    let earnings = 0.5;
+                    if (appData.usedReferralId) {
+                        earnings = 0.525; // 5% bonus
+                    }
+                    
+                    // Add earnings
+                    appData.balance += earnings;
+                    appData.totalEarned += earnings;
+                    appData.watchedVideos.push(videoId);
+                    
+                    // Update button
+                    const btn = document.getElementById('videoBtn' + videoId);
+                    btn.disabled = true;
+                    btn.textContent = '✅ Completed';
+                    
+                    const bonusText = appData.usedReferralId ? ' (🎁 +5% referral bonus!)' : '';
+                    document.getElementById('videoStatus').textContent = `🎉 Video completed! +$${earnings.toFixed(3)} earned${bonusText}`;
+                    document.getElementById('videoCloseBtn').style.display = 'inline-block';
+                    
+                    updateDisplay();
+                    updateVideoStats();
+                    saveData();
+                    showNotification(`🎉 Congratulations! You earned $${earnings.toFixed(3)}${bonusText}`, 'success');
+                }
+            }, 100);
+        }
+
+        // Modal functions
+        function showDepositModal() {
+            document.getElementById('depositModal').style.display = 'block';
+        }
+
+        function showWithdrawModal() {
+            document.getElementById('withdrawModal').style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Process deposit with ULTRA-STRICT multi-step verification
+        function processDeposit() {
+            const amount = parseFloat(document.getElementById('depositAmount').value);
+            const verifyAddress = document.getElementById('verifyAddress').value.trim();
+            const verifyTxHash = document.getElementById('verifyTxHash').value.trim();
+            const verifySenderAddress = document.getElementById('verifySenderAddress').value.trim();
+            const correctAddress = 'TJu2Dsrv4FA1cV4yUWTzbyFUqxX5hoHkec';
+            
+            // Reset all input styling
+            document.getElementById('verifyAddress').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            document.getElementById('verifyTxHash').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            document.getElementById('verifySenderAddress').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            
+            // STEP 1: Amount validation - absolutely no deposits under $15
+            if (!amount || amount < 15) {
+                showNotification('❌ STEP 1 FAILED: Minimum deposit is $15.00. Please enter at least $15.', 'error');
+                return;
+            }
+            
+            // STEP 2: Address verification - must match exactly
+            if (!verifyAddress) {
+                showNotification('🔐 STEP 1 FAILED: You must enter the EXACT USDT address you sent money to. This is basic proof you actually made a transaction.', 'error');
+                document.getElementById('verifyAddress').style.borderColor = '#ef4444';
+                document.getElementById('verifyAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+                return;
+            }
+            
+            if (verifyAddress !== correctAddress) {
+                showNotification('❌ STEP 1 FAILED: Wrong deposit address! Only users who actually sent USDT will know our correct address. Fake deposits are automatically rejected.', 'error');
+                document.getElementById('verifyAddress').style.borderColor = '#ef4444';
+                document.getElementById('verifyAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+                return;
+            }
+            
+            // STEP 3: Transaction hash verification
+            if (!verifyTxHash || verifyTxHash.length < 40) {
+                showNotification('❌ STEP 2 FAILED: You must provide a valid transaction hash (TxID). This proves the transaction actually exists on the blockchain.', 'error');
+                document.getElementById('verifyTxHash').style.borderColor = '#ef4444';
+                document.getElementById('verifyTxHash').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+                return;
+            }
+            
+            // STEP 4: Sender address verification
+            if (!verifySenderAddress || verifySenderAddress.length < 25) {
+                showNotification('❌ STEP 3 FAILED: You must provide your sender wallet address. This proves you control the wallet that sent the USDT.', 'error');
+                document.getElementById('verifySenderAddress').style.borderColor = '#ef4444';
+                document.getElementById('verifySenderAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+                return;
+            }
+            
+            // Additional security: Check if transaction hash looks valid (basic format check)
+            if (!verifyTxHash.match(/^[a-fA-F0-9]{40,}$/)) {
+                showNotification('❌ INVALID TRANSACTION HASH: The transaction hash format is incorrect. Please copy the exact TxID from your wallet.', 'error');
+                document.getElementById('verifyTxHash').style.borderColor = '#ef4444';
+                document.getElementById('verifyTxHash').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+                return;
+            }
+            
+            // Additional security: Check if sender address looks valid (basic format check)
+            if (!verifySenderAddress.match(/^T[a-zA-Z0-9]{33}$/)) {
+                showNotification('❌ INVALID SENDER ADDRESS: The wallet address format is incorrect. TRON addresses start with "T" and are 34 characters long.', 'error');
+                document.getElementById('verifySenderAddress').style.borderColor = '#ef4444';
+                document.getElementById('verifySenderAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
+                return;
+            }
+            
+            // Success styling for all inputs
+            document.getElementById('verifyAddress').style.borderColor = '#4ade80';
+            document.getElementById('verifyAddress').style.boxShadow = '0 0 15px rgba(74, 222, 128, 0.5)';
+            document.getElementById('verifyTxHash').style.borderColor = '#4ade80';
+            document.getElementById('verifyTxHash').style.boxShadow = '0 0 15px rgba(74, 222, 128, 0.5)';
+            document.getElementById('verifySenderAddress').style.borderColor = '#4ade80';
+            document.getElementById('verifySenderAddress').style.boxShadow = '0 0 15px rgba(74, 222, 128, 0.5)';
+            
+            // Create pending deposit record with ALL verification data (NO BALANCE ADDED)
+            const depositId = 'DEP' + Date.now();
+            appData.pendingDeposits.push({
+                id: depositId,
+                amount: amount,
+                timestamp: new Date().toISOString(),
+                status: 'pending',
+                verifiedAddress: verifyAddress,
+                transactionHash: verifyTxHash,
+                senderAddress: verifySenderAddress,
+                verificationLevel: 'ULTRA_SECURE'
+            });
+            
+            saveData();
+            showNotification('🎉 ALL VERIFICATION STEPS PASSED! You have successfully proven you sent USDT with: ✅ Correct address ✅ Valid transaction hash ✅ Valid sender address. Deposit pending admin approval (24-48 hours).', 'success');
+            closeModal('depositModal');
+            
+            // Clear all inputs
+            document.getElementById('depositAmount').value = '';
+            document.getElementById('verifyAddress').value = '';
+            document.getElementById('verifyTxHash').value = '';
+            document.getElementById('verifySenderAddress').value = '';
+        }
+
+        // Process withdrawal
+        function processWithdraw() {
+            // Check if user has made any approved deposits
+            const hasApprovedDeposit = appData.pendingDeposits && appData.pendingDeposits.some(deposit => 
+                deposit.status === 'completed' && deposit.amount >= 15
+            );
+            
+            if (!hasApprovedDeposit) {
+                showNotification('❌ You cannot withdraw money until you make a minimum deposit of $15.', 'error');
+                closeModal('withdrawModal');
+                return;
+            }
+            
+            const amount = parseFloat(document.getElementById('withdrawAmount').value);
+            if (!amount || amount < 15) {
+                showNotification('❌ Minimum withdrawal is $15.00', 'error');
+                return;
+            }
+            
+            if (amount > appData.balance) {
+                showNotification('❌ Insufficient balance', 'error');
+                return;
+            }
+            
+            showNotification('ℹ️ Withdrawal feature requires backend integration', 'info');
+            closeModal('withdrawModal');
+        }
+
+        // Copy referral code
+        function copyReferralCode() {
+            navigator.clipboard.writeText(appData.referralCode).then(() => {
+                showNotification('📋 Referral code copied to clipboard!', 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = appData.referralCode;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('📋 Referral code copied!', 'success');
+            });
+        }
+
+        // Copy USDT address
+        function copyUSDTAddress() {
+            const address = 'TJu2Dsrv4FA1cV4yUWTzbyFUqxX5hoHkec';
+            navigator.clipboard.writeText(address).then(() => {
+                showNotification('📋 USDT address copied to clipboard!', 'success');
+            }).catch(() => {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = address;
+                document.body.appendChild(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+                showNotification('📋 USDT address copied!', 'success');
+            });
+        }
+
+        // Submit referral ID
+        function submitReferralId() {
+            const referralId = document.getElementById('referralInput').value.trim();
+            if (!referralId) {
+                showNotification('❌ Please enter a referral ID', 'error');
+                return;
+            }
+            
+            if (referralId === appData.referralCode) {
+                showNotification('❌ You cannot use your own referral code', 'error');
+                return;
+            }
+            
+            if (appData.usedReferralId) {
+                showNotification('⚠️ You have already used a referral ID', 'warning');
+                return;
+            }
+            
+            // Save the referral ID
+            appData.usedReferralId = referralId;
+            saveData();
+            
+            showNotification('🎉 Referral ID activated! You now get 5% bonus on all video earnings!', 'success');
+            document.getElementById('referralInput').value = '';
+            
+            // Regenerate video list to show new earnings
+            generateVideoList();
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const notification = document.getElementById('notification');
+            notification.textContent = message;
+            notification.style.display = 'block';
+            
+            // Change color based on type
+            switch(type) {
+                case 'success':
+                    notification.style.background = 'linear-gradient(135deg, #4ade80, #22c55e)';
+                    break;
+                case 'error':
+                    notification.style.background = 'linear-gradient(135deg, #ef4444, #dc2626)';
+                    break;
+                case 'warning':
+                    notification.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+                    break;
+                case 'info':
+                    notification.style.background = 'linear-gradient(135deg, #3b82f6, #2563eb)';
+                    break;
+            }
+            
+            setTimeout(() => {
+                notification.style.display = 'none';
+            }, 4000);
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        }
+
+        // Admin functions
+        let isAdminLoggedIn = false;
+        const ADMIN_PASSWORD = 'admin123';
+
+        function verifyAdmin() {
+            const password = document.getElementById('adminPassword').value;
+            if (password === ADMIN_PASSWORD) {
+                isAdminLoggedIn = true;
+                document.getElementById('adminContent').style.display = 'block';
+                document.getElementById('adminTab').style.display = 'block';
+                showNotification('🔓 Admin access granted!', 'success');
+                updateAdminDepositList();
+            } else {
+                showNotification('❌ Invalid admin password!', 'error');
+            }
+        }
+
+        function updateAdminDepositList() {
+            const adminDepositList = document.getElementById('adminDepositList');
+            if (!appData.pendingDeposits || appData.pendingDeposits.length === 0) {
+                adminDepositList.innerHTML = '<p style="color: rgba(255, 255, 255, 0.6); text-align: center;">📭 No pending deposits</p>';
+                return;
+            }
+
+            adminDepositList.innerHTML = '';
+            appData.pendingDeposits.forEach(deposit => {
+                if (deposit.status === 'pending') {
+                    const depositItem = document.createElement('div');
+                    depositItem.style.cssText = 'background: rgba(255, 255, 255, 0.1); padding: 20px; border-radius: 15px; margin-bottom: 15px; border: 1px solid rgba(255, 255, 255, 0.2);';
+                    
+                    depositItem.innerHTML = `
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                            <div>
+                                <div style="font-weight: 600; font-size: 18px;">$${deposit.amount.toFixed(2)}</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">ID: ${deposit.id}</div>
+                                <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">${new Date(deposit.timestamp).toLocaleString()}</div>
+                                ${deposit.verificationLevel === 'ULTRA_SECURE' ? '<div style="font-size: 11px; color: #4ade80; font-weight: 600;">🔐 ULTRA-SECURE VERIFIED</div>' : ''}
+                            </div>
+                            <div style="color: #fbbf24; font-weight: 600;">⏳ Pending</div>
+                        </div>
+                        
+                        ${deposit.transactionHash ? `
+                        <div style="background: rgba(0, 0, 0, 0.3); padding: 15px; border-radius: 10px; margin: 15px 0; border: 1px solid rgba(255, 255, 255, 0.1);">
+                            <div style="font-size: 12px; color: #4ade80; font-weight: 600; margin-bottom: 8px;">🔗 VERIFICATION DATA:</div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.8); margin-bottom: 5px;">
+                                <strong>Deposit Address:</strong> ${deposit.verifiedAddress || 'Not provided'}
+                            </div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.8); margin-bottom: 5px; word-break: break-all;">
+                                <strong>Transaction Hash:</strong> ${deposit.transactionHash}
+                            </div>
+                            <div style="font-size: 11px; color: rgba(255, 255, 255, 0.8); word-break: break-all;">
+                                <strong>Sender Address:</strong> ${deposit.senderAddress || 'Not provided'}
+                            </div>
+                        </div>
+                        ` : ''}
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button onclick="approveDeposit('${deposit.id}')" style="flex: 1; background: linear-gradient(135deg, #4ade80, #22c55e); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                ✅ Approve & Add Balance
+                            </button>
+                            <button onclick="rejectDeposit('${deposit.id}')" style="flex: 1; background: linear-gradient(135deg, #ef4444, #dc2626); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;">
+                                ❌ Reject & Remove
+                            </button>
+                        </div>
+                    `;
+                    adminDepositList.appendChild(depositItem);
+                }
+            });
+        }
+
+        function approveDeposit(depositId) {
+            const deposit = appData.pendingDeposits.find(d => d.id === depositId);
+            if (deposit) {
+                deposit.status = 'completed';
+                appData.balance += deposit.amount;
+                saveData();
+                updateDisplay();
+                updateAdminDepositList();
+                showNotification(`✅ Deposit of $${deposit.amount.toFixed(2)} approved and added to user balance!`, 'success');
+            }
+        }
+
+        function rejectDeposit(depositId) {
+            const depositIndex = appData.pendingDeposits.findIndex(d => d.id === depositId);
+            if (depositIndex !== -1) {
+                const deposit = appData.pendingDeposits[depositIndex];
+                appData.pendingDeposits.splice(depositIndex, 1);
+                saveData();
+                updateAdminDepositList();
+                updateDisplay();
+                showNotification(`❌ Deposit of $${deposit.amount.toFixed(2)} rejected and removed!`, 'warning');
+            }
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ Are you sure you want to clear ALL user data? This cannot be undone!')) {
+                localStorage.removeItem('earnMaxProData');
+                localStorage.removeItem('lastResetEarnMax');
+                appData = {
+                    balance: 0.00,
+                    totalEarned: 0.00,
+                    referralCount: 0,
+                    referralEarnings: 0.00,
+                    referralCode: 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase(),
+                    watchedVideos: [],
+                    pendingDeposits: []
+                };
+                updateDisplay();
+                generateVideoList();
+                updateAdminDepositList();
+                showNotification('🗑️ All user data cleared!', 'warning');
+            }
+        }
+
+        function resetDailyVideos() {
+            if (confirm('🔄 Reset all daily videos for all users?')) {
+                appData.watchedVideos = [];
+                saveData();
+                generateVideoList();
+                showNotification('🔄 Daily videos reset! Users can watch all videos again.', 'success');
+            }
+        }
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadData();
+            
+            // Reset watched videos daily (simplified)
+            const lastReset = localStorage.getItem('lastResetEarnMax');
+            const today = new Date().toDateString();
+            if (lastReset !== today) {
+                appData.watchedVideos = [];
+                localStorage.setItem('lastResetEarnMax', today);
+                saveData();
+            }
+            
+            // Generate video list
+            generateVideoList();
+        });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96e0d5ccf21afb7e',t:'MTc1NTAxMDc1MS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96e2c07d51c1ddd0',t:'MTc1NTAzMDg1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
