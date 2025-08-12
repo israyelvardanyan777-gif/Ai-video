@@ -342,7 +342,7 @@
                     <p class="text-sm font-medium text-gray-800">${prompt.substring(0, 30)}${prompt.length > 30 ? '...' : ''}</p>
                     <p class="text-xs text-gray-500">${duration}s • ${style} • Just now</p>
                 </div>
-                <div class="text-xs text-green-600 font-medium">+0.0000001 BTC</div>
+                <div class="text-xs text-green-600 font-medium">+0.00000001 BTC</div>
             `;
             recentVideos.insertBefore(videoElement, recentVideos.firstChild);
             
@@ -577,13 +577,13 @@
         // Daily bonus
         document.getElementById('claimDailyBtn').addEventListener('click', function() {
             if (!dailyBonusClaimed) {
-                cryptoBalance += 50; // 0.0000005 BTC daily bonus
+                cryptoBalance += 50; // 0.00000005 BTC daily bonus
                 updateCryptoDisplay();
                 dailyBonusClaimed = true;
                 this.innerHTML = '✅ Claimed Today';
                 this.disabled = true;
                 this.classList.add('opacity-50');
-                alert('🎁 Daily bonus claimed!\n💰 +0.0000005 BTC added to your balance!\n\nCome back tomorrow for another bonus!');
+                alert('🎁 Daily bonus claimed!\n💰 +0.00000005 BTC added to your balance!\n\nCome back tomorrow for another bonus!');
             }
         });
 
