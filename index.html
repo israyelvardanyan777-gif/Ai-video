@@ -256,6 +256,7 @@
                         <div class="grid grid-cols-2 gap-2">
                             <button id="depositBtn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-3 rounded-lg transition-colors text-sm font-medium">
                                 💰 Deposit
+                                1GcMCSNAzRivLPu3xHATuf8DNgun14q52T
                             </button>
                             <button id="withdrawBtn" class="bg-red-500 hover:bg-red-600 text-white py-2 px-3 rounded-lg transition-colors text-sm font-medium">
                                 💸 Withdraw
@@ -265,15 +266,15 @@
                         <div class="space-y-2">
                             <div class="flex justify-between text-sm">
                                 <span>Per video created:</span>
-                                <span class="font-medium">+0.0000001 BTC</span>
+                                <span class="font-medium">+0.00000001 BTC</span>
                             </div>
                             <div class="flex justify-between text-sm">
                                 <span>Per video shared:</span>
-                                <span class="font-medium">+0.0000002 BTC</span>
+                                <span class="font-medium">+0.00000002 BTC</span>
                             </div>
                             <div class="flex justify-between text-sm">
                                 <span>Daily bonus:</span>
-                                <span class="font-medium">+0.0000005 BTC</span>
+                                <span class="font-medium">+0.00000001 BTC</span>
                             </div>
                         </div>
                         
@@ -441,7 +442,7 @@
                         
                         // Show success message
                         setTimeout(() => {
-                            alert(`🎉 Video generated successfully!\n💰 You earned 0.0000001 BTC!\n🎬 Total videos created: ${videoCount}`);
+                            alert(`🎉 Video generated successfully!\n💰 You earned 0.00000001 BTC!\n🎬 Total videos created: ${videoCount}`);
                         }, 500);
                         
                     }, 1500);
@@ -458,7 +459,7 @@
         document.getElementById('shareBtn').addEventListener('click', function() {
             cryptoBalance += 20; // 0.0000002 BTC bonus for sharing
             updateCryptoDisplay();
-            alert('🔗 Share link copied!\n💰 Bonus: +0.0000002 BTC for sharing!\n\nYour video link has been copied to clipboard. Share it on social media to show off your AI creation!');
+            alert('🔗 Share link copied!\n💰 Bonus: +0.00000002 BTC for sharing!\n\nYour video link has been copied to clipboard. Share it on social media to show off your AI creation!');
         });
 
         // Crypto earn functionality
@@ -496,7 +497,7 @@
                 cryptoBalance += 10000; // 0.0001 BTC welcome bonus
                 updateCryptoDisplay();
                 
-                alert(`🎉 Welcome ${userName}!\n📧 Logged in as: ${userEmail}\n💰 Welcome bonus: +0.0001 BTC\n\nYour account is now connected and your crypto earnings are secured!`);
+                alert(`🎉 Welcome ${userName}!\n📧 Logged in as: ${userEmail}\n💰 Welcome bonus: +0.00000001 BTC\n\nYour account is now connected and your crypto earnings are secured!`);
             }, 2000);
         });
 
