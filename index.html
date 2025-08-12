@@ -85,22 +85,95 @@
             </div>
         </div>
     </header>
-const tg = window.Telegram.WebApp;
-const userId = tg.initDataUnsafe.user.id; // Օգտագործողի ID Telegram-ից
+// server.js
+const express = require("express");
+const app = express();
+app.use(express.json());
 
-async function getBalance() {
-  const response = await fetch('https://քո-դոմեն/getBalance', {
-    method: 'POST',
-    headers: {'Content-Type': 'application/json'},
-    body: JSON.stringify({ userId })
+// Պահում ենք մոնոգեն բալանսի օրինակ (իրականում պետք է DB)
+let user = {
+  balances: {
+    USDT: 0,
+    BTC: 0,
+    DASH: 0,
+    ETC: 0,
+    TRX: 0,
+  },
+  videosCount: 0,
+};
+
+const VIDEO_PRICE = 0.03;
+const DEPOSIT_MIN = 10;
+const WITHDRAW_MIN = 50;
+const WITHDRAW_FEE = 10;
+
+app.get("/api/status", (req, res) => {
+  res.json({
+    balances: user.balances,
+    videosCount: user.videosCount,
   });
-  const data = await response.json();
-  return data.balance;
-}
-
-getBalance().then(balance => {
-  document.getElementById('message').textContent = `Դուք ունեք ${balance}$`;
 });
+
+app.post("/api/uploadVideo", (req, res) => {
+  user.videosCount++;
+  user.balances.USDT += VIDEO_PRICE;
+  user.balances.USDT = +user.balances.USDT.toFixed(2);
+  res.json({
+    success: true,
+    videosCount: user.videosCount,
+    balances: user.balances,
+    message: `Վիդեո բեռնվեց, վաստակեցիք $${VIDEO_PRICE} USDT`,
+  });
+});
+
+app.post("/api/deposit", (req, res) => {
+  const { currency, amount } = req.body;
+  if (!currency || typeof amount !== "number" || amount < DEPOSIT_MIN) {
+    return res.json({
+      success: false,
+      error: `Դեպոզիտի նվազագույն գումարը ${DEPOSIT_MIN}$ է:`,
+    });
+  }
+  if (!(currency in user.balances)) {
+    return res.json({ success: false, error: "Անհայտ արժույթ" });
+  }
+  user.balances[currency] += amount;
+  user.balances[currency] = +user.balances[currency].toFixed(2);
+  res.json({ success: true, balances: user.balances });
+});
+
+app.post("/api/withdraw", (req, res) => {
+  const { currency, amount } = req.body;
+  if (!currency || typeof amount !== "number" || amount < WITHDRAW_MIN) {
+    return res.json({
+      success: false,
+      error: `Withdraw-ի նվազագույն գումարը ${WITHDRAW_MIN}$ է:`,
+    });
+  }
+  if (!(currency in user.balances)) {
+    return res.json({ success: false, error: "Անհայտ արժույթ" });
+  }
+
+  if (user.balances[currency] < amount + WITHDRAW_FEE) {
+    return res.json({
+      success: false,
+      error: `Ձեր բալանսը պետք է լինի առնվազն ${
+        amount + WITHDRAW_FEE
+      }$, ներառյալ ${WITHDRAW_FEE}$ վճարը:`,
+    });
+  }
+
+  user.balances[currency] -= amount + WITHDRAW_FEE;
+  user.balances[currency] = +user.balances[currency].toFixed(2);
+  res.json({
+    success: true,
+    balances: user.balances,
+    message: `Withdraw $${amount} հաջողությամբ կատարվեց, վճար $${WITHDRAW_FEE} կպահպանվի։`,
+  });
+});
+
+const PORT = 3001;
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));
 
     <div class="container mx-auto px-4 py-8">
         <!-- Free Features Banner -->
