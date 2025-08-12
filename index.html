@@ -638,6 +638,38 @@
             box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
         }
 
+        /* Video Player Styles */
+        .video-player {
+            width: 100%;
+            max-width: 100%;
+            height: 250px;
+            border-radius: 15px;
+            margin: 20px 0;
+            background: #000;
+            border: 2px solid rgba(102, 126, 234, 0.3);
+        }
+
+        .video-info-display {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 15px 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .video-title-display {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #4ade80;
+        }
+
+        .video-description {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.5;
+        }
+
         @media (max-width: 480px) {
             .container {
                 max-width: 100%;
@@ -654,6 +686,10 @@
             .modal-content {
                 width: 95%;
                 padding: 25px;
+            }
+
+            .video-player {
+                height: 200px;
             }
         }
     </style>
@@ -674,14 +710,59 @@
 
         <!-- Mission Tab -->
         <div id="mission" class="tab-content active">
+            <!-- VIP Mission Section -->
+            <div class="card" style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2)); border: 2px solid rgba(255, 215, 0, 0.5); margin-bottom: 25px;">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <h3 style="color: #ffd700; font-size: 24px; margin-bottom: 10px;">👑 VIP PREMIUM MISSIONS</h3>
+                    <p style="color: rgba(255, 255, 255, 0.9); font-size: 16px; margin-bottom: 15px;">Unlock high-paying premium videos!</p>
+                    
+                    <div style="background: rgba(255, 215, 0, 0.1); padding: 20px; border-radius: 15px; margin: 15px 0; border: 2px dashed rgba(255, 215, 0, 0.6);">
+                        <div style="font-size: 32px; font-weight: 800; color: #ffd700; margin-bottom: 10px;">$0.895</div>
+                        <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">Per VIP Video (150 videos available)</div>
+                        <div style="font-size: 12px; color: #4ade80; font-weight: 600; margin-top: 8px;">💰 Total Potential: $134.25</div>
+                    </div>
+                    
+                    <div id="vipStatus" style="margin: 20px 0;">
+                        <div style="background: rgba(255, 215, 0, 0.2); padding: 20px; border-radius: 15px; border: 2px solid rgba(255, 215, 0, 0.4);">
+                            <div style="font-size: 18px; font-weight: 700; color: #ffd700; margin-bottom: 15px;">🔒 VIP ACCESS REQUIRED</div>
+                            <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8); margin-bottom: 20px;">
+                                Pay $10.00 one-time fee to unlock all 150 premium videos<br>
+                                <span style="color: #4ade80; font-weight: 600;">Break even after just 12 videos!</span>
+                            </div>
+                            <button class="modal-btn" onclick="purchaseVIP()" style="background: linear-gradient(135deg, #ffd700, #ffb347); color: #000; font-weight: 700; padding: 15px 30px; font-size: 16px;">
+                                👑 Unlock VIP for $10.00
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="video-stats" style="margin-top: 20px;">
+                        <span>👑 VIP Available: <span id="availableVipVideos">150</span></span>
+                        <span>✅ VIP Completed: <span id="vipWatchedCount">0</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Regular Mission Section -->
             <div class="mission-header">
                 <h3>🎬 Daily Video Missions</h3>
                 <p>Watch videos and earn $0.50 instantly!</p>
+                <div style="background: linear-gradient(135deg, #4ade80, #22c55e); padding: 15px; border-radius: 12px; margin: 15px 0; text-align: center; font-weight: 700; color: white; box-shadow: 0 4px 15px rgba(74, 222, 128, 0.3);">
+                    💯 ZERO COMMISSION GUARANTEE<br>
+                    <span style="font-size: 14px; font-weight: 500;">100% of your earnings go directly to YOU!</span>
+                </div>
                 <div class="video-stats">
                     <span>📺 Available: <span id="availableVideos">100</span></span>
                     <span>✅ Completed: <span id="watchedCount">0</span></span>
                 </div>
             </div>
+            
+            <!-- VIP Video List -->
+            <div id="vipVideoList" class="video-list" style="display: none; margin-bottom: 30px;">
+                <h4 style="color: #ffd700; margin-bottom: 20px; text-align: center; font-weight: 700;">👑 VIP PREMIUM VIDEOS</h4>
+                <!-- VIP Videos will be generated by JavaScript -->
+            </div>
+            
+            <!-- Regular Video List -->
             <div id="videoList" class="video-list">
                 <!-- Videos will be generated by JavaScript -->
             </div>
@@ -795,34 +876,21 @@
                 <div class="usdt-address">TJu2Dsrv4FA1cV4yUWTzbyFUqxX5hoHkec</div>
                 <button class="copy-btn" onclick="copyUSDTAddress()">📋 Copy Address</button>
             </div>
-            <input type="number" class="modal-input" id="depositAmount" placeholder="Enter amount ($15 minimum)" min="15" step="0.01">
-            
-            <div style="background: rgba(239, 68, 68, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid rgba(239, 68, 68, 0.3);">
-                <p style="font-weight: 600; margin-bottom: 15px; color: #ef4444;">🔐 MULTI-STEP SECURITY VERIFICATION</p>
-                <p style="font-size: 14px; margin-bottom: 15px; color: rgba(255, 255, 255, 0.8);">⚠️ <strong>ANTI-FRAUD PROTECTION:</strong> Complete ALL verification steps to prove you actually sent USDT:</p>
+            <div style="background: rgba(74, 222, 128, 0.1); padding: 20px; border-radius: 15px; margin: 20px 0; border: 2px solid rgba(74, 222, 128, 0.3);">
+                <p style="font-weight: 600; margin-bottom: 15px; color: #4ade80;">✅ SUPER SIMPLE DEPOSIT</p>
+                <p style="font-size: 14px; margin-bottom: 15px; color: rgba(255, 255, 255, 0.8);">Just confirm you sent USDT to our address:</p>
                 
-                <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border-left: 4px solid #ef4444;">
-                    <p style="font-weight: 600; margin-bottom: 10px; color: #ef4444;">STEP 1: Prove Address Knowledge</p>
-                    <input type="text" class="modal-input" id="verifyAddress" placeholder="Enter the EXACT USDT address you sent money to" style="margin: 5px 0;">
+                <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border-left: 4px solid #4ade80;">
+                    <p style="font-weight: 600; margin-bottom: 10px; color: #4ade80;">📝 Transaction Hash (Optional)</p>
+                    <input type="text" class="modal-input" id="verifyTxHash" placeholder="Enter your transaction hash (TxID) - optional but recommended" style="margin: 5px 0;">
+                    <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">This helps us verify your deposit faster</p>
                 </div>
                 
-                <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border-left: 4px solid #f59e0b;">
-                    <p style="font-weight: 600; margin-bottom: 10px; color: #f59e0b;">STEP 2: Transaction Hash Verification</p>
-                    <input type="text" class="modal-input" id="verifyTxHash" placeholder="Enter your USDT transaction hash (TxID)" style="margin: 5px 0;">
-                    <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">Find this in your wallet's transaction history</p>
-                </div>
-                
-                <div style="margin: 15px 0; padding: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border-left: 4px solid #8b5cf6;">
-                    <p style="font-weight: 600; margin-bottom: 10px; color: #8b5cf6;">STEP 3: Wallet Verification</p>
-                    <input type="text" class="modal-input" id="verifySenderAddress" placeholder="Enter YOUR wallet address (sender address)" style="margin: 5px 0;">
-                    <p style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">The address you sent USDT FROM</p>
-                </div>
-                
-                <div style="background: rgba(239, 68, 68, 0.2); padding: 15px; border-radius: 10px; margin-top: 15px;">
-                    <p style="font-size: 12px; color: #ef4444; font-weight: 600; text-align: center;">
-                        🚨 WARNING: All information must be 100% accurate<br>
-                        Only users who actually sent USDT will have this information<br>
-                        Fake deposits will be automatically rejected and reported
+                <div style="background: rgba(74, 222, 128, 0.2); padding: 15px; border-radius: 10px; margin-top: 15px;">
+                    <p style="font-size: 12px; color: #4ade80; font-weight: 600; text-align: center;">
+                        💚 EASIEST PROCESS: Send minimum $15 USDT to our address<br>
+                        Add your transaction hash if you have it<br>
+                        We'll verify and add to your balance within 24 hours
                     </p>
                 </div>
             </div>
@@ -849,13 +917,74 @@
         </div>
     </div>
 
+    <!-- VIP Purchase Modal -->
+    <div id="vipModal" class="modal">
+        <div class="modal-content">
+            <h3 style="color: #ffd700;">👑 VIP Premium Access</h3>
+            <div style="background: linear-gradient(135deg, rgba(255, 215, 0, 0.2), rgba(255, 165, 0, 0.2)); padding: 25px; border-radius: 15px; margin: 20px 0; border: 2px solid rgba(255, 215, 0, 0.5);">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="font-size: 28px; font-weight: 800; color: #ffd700; margin-bottom: 10px;">$10.00</div>
+                    <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8);">One-time VIP upgrade fee</div>
+                </div>
+                
+                <div style="background: rgba(0, 0, 0, 0.3); padding: 20px; border-radius: 12px; margin: 15px 0;">
+                    <h4 style="color: #4ade80; margin-bottom: 15px;">🎯 What You Get:</h4>
+                    <ul style="color: rgba(255, 255, 255, 0.9); font-size: 14px; line-height: 1.8; list-style: none; padding: 0;">
+                        <li>✅ Access to 150 premium videos</li>
+                        <li>💰 Earn $0.895 per video</li>
+                        <li>🚀 Total earning potential: $134.25</li>
+                        <li>⚡ Break even after just 12 videos</li>
+                        <li>🎁 Lifetime VIP access</li>
+                    </ul>
+                </div>
+                
+                <div style="background: rgba(74, 222, 128, 0.1); padding: 15px; border-radius: 10px; margin: 15px 0; border: 2px dashed rgba(74, 222, 128, 0.5);">
+                    <p style="font-size: 12px; color: #4ade80; font-weight: 600; text-align: center; margin: 0;">
+                        💡 SMART INVESTMENT: Pay $10 → Earn $134.25 = $124.25 PROFIT!
+                    </p>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 20px 0;">
+                <p style="color: rgba(255, 255, 255, 0.8); font-size: 14px; margin-bottom: 15px;">
+                    ⚠️ VIP upgrade requires sufficient balance
+                </p>
+                <div style="font-size: 16px; font-weight: 600; margin-bottom: 20px;">
+                    Your Balance: $<span id="vipModalBalance">0.00</span>
+                </div>
+            </div>
+            
+            <div>
+                <button class="modal-btn" onclick="confirmVIPPurchase()" id="vipPurchaseBtn" style="background: linear-gradient(135deg, #ffd700, #ffb347); color: #000; font-weight: 700;">
+                    👑 Purchase VIP Access
+                </button>
+                <button class="modal-btn close-btn" onclick="closeModal('vipModal')">❌ Cancel</button>
+            </div>
+        </div>
+    </div>
+
     <!-- Video Modal -->
     <div id="videoModal" class="modal">
-        <div class="modal-content">
-            <h3>🎬 Watching Video...</h3>
+        <div class="modal-content" style="max-width: 600px; width: 95%;">
+            <h3 id="videoModalTitle">🎬 Watching Video...</h3>
+            
+            <!-- Video Info Display -->
+            <div id="videoInfoDisplay" class="video-info-display" style="display: none;">
+                <div class="video-title-display" id="currentVideoTitle"></div>
+                <div class="video-description" id="currentVideoDescription"></div>
+            </div>
+            
+            <!-- Video Player -->
+            <video id="videoPlayer" class="video-player" controls style="display: none;">
+                <source id="videoSource" src="" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+            
+            <!-- Progress Bar -->
             <div class="progress-bar">
                 <div class="progress-fill" id="videoProgress"></div>
             </div>
+            
             <p id="videoStatus">⏳ Please wait while the video loads...</p>
             <button class="modal-btn close-btn" onclick="closeModal('videoModal')" id="videoCloseBtn" style="display: none;">✅ Close</button>
         </div>
@@ -865,6 +994,104 @@
     <div id="notification" class="notification"></div>
 
     <script>
+        // Real video database with actual content
+        const videoDatabase = {
+            regular: [
+                {
+                    title: "🎵 Amazing Music Video - Top Hits 2024",
+                    description: "Enjoy the latest music hits and trending songs. Perfect for relaxation and entertainment!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    duration: 30
+                },
+                {
+                    title: "🌟 Motivational Success Stories",
+                    description: "Inspiring stories of people who achieved their dreams. Get motivated and inspired!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    duration: 25
+                },
+                {
+                    title: "🎮 Gaming Highlights & Epic Moments",
+                    description: "Best gaming moments and epic plays from popular games. Entertainment guaranteed!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    duration: 20
+                },
+                {
+                    title: "🍕 Delicious Food Recipes & Cooking",
+                    description: "Learn to cook amazing dishes with easy-to-follow recipes. Make your mouth water!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    duration: 35
+                },
+                {
+                    title: "🐱 Funny Animal Videos & Pets",
+                    description: "Hilarious animal moments and cute pet videos. Guaranteed to make you smile!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    duration: 30
+                },
+                {
+                    title: "🏃‍♂️ Fitness & Health Tips",
+                    description: "Stay healthy with these amazing fitness tips and workout routines!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
+                    duration: 40
+                },
+                {
+                    title: "🎨 Creative Art & DIY Projects",
+                    description: "Amazing art tutorials and creative DIY projects you can do at home!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
+                    duration: 25
+                },
+                {
+                    title: "🌍 Travel & Adventure Videos",
+                    description: "Explore beautiful destinations and amazing adventures around the world!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+                    duration: 30
+                },
+                {
+                    title: "💡 Life Hacks & Useful Tips",
+                    description: "Discover amazing life hacks that will make your daily life easier and better!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
+                    duration: 20
+                },
+                {
+                    title: "🎭 Comedy & Entertainment",
+                    description: "Laugh out loud with these hilarious comedy sketches and funny moments!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+                    duration: 35
+                }
+            ],
+            vip: [
+                {
+                    title: "👑 VIP Exclusive: Celebrity Interviews",
+                    description: "Exclusive interviews with top celebrities and influencers. VIP members only!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+                    duration: 45
+                },
+                {
+                    title: "💎 Premium Business Success Secrets",
+                    description: "Learn the secrets of successful entrepreneurs and business leaders. Premium content!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+                    duration: 50
+                },
+                {
+                    title: "🚀 VIP Tech Reviews & Latest Gadgets",
+                    description: "Get early access to the latest tech reviews and gadget unboxings!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
+                    duration: 40
+                },
+                {
+                    title: "🎬 Behind the Scenes: Movie Making",
+                    description: "Exclusive behind-the-scenes content from popular movies and shows!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
+                    duration: 55
+                },
+                {
+                    title: "💰 VIP Investment & Trading Tips",
+                    description: "Premium investment strategies and trading tips from financial experts!",
+                    url: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4",
+                    duration: 60
+                }
+            ]
+        };
+
         // App state
         let appData = {
             balance: 0.00,
@@ -873,6 +1100,8 @@
             referralEarnings: 0.00,
             referralCode: 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase(),
             watchedVideos: [],
+            vipWatchedVideos: [],
+            isVIP: false,
             pendingDeposits: []
         };
 
@@ -948,6 +1177,13 @@
             event.target.classList.add('active');
         }
 
+        // Get random video from database
+        function getRandomVideo(isVIP = false) {
+            const videoList = isVIP ? videoDatabase.vip : videoDatabase.regular;
+            const randomIndex = Math.floor(Math.random() * videoList.length);
+            return videoList[randomIndex];
+        }
+
         // Generate video list
         function generateVideoList() {
             const videoList = document.getElementById('videoList');
@@ -960,9 +1196,12 @@
                 const isWatched = appData.watchedVideos.includes(i);
                 const earnings = appData.usedReferralId ? 0.525 : 0.50;
                 
+                // Get random video info for display
+                const randomVideo = getRandomVideo(false);
+                
                 videoItem.innerHTML = `
                     <div class="video-info">
-                        <div class="video-title">🎬 Video #${i}</div>
+                        <div class="video-title">${randomVideo.title}</div>
                         <div class="video-reward">💰 +$${earnings.toFixed(3)}</div>
                     </div>
                     <button class="video-btn" id="videoBtn${i}" onclick="watchVideo(${i})" ${isWatched ? 'disabled' : ''}>
@@ -974,6 +1213,46 @@
             }
             
             updateVideoStats();
+            generateVIPVideoList();
+            updateVIPStatus();
+        }
+
+        // Generate VIP video list
+        function generateVIPVideoList() {
+            const vipVideoList = document.getElementById('vipVideoList');
+            vipVideoList.innerHTML = '<h4 style="color: #ffd700; margin-bottom: 20px; text-align: center; font-weight: 700;">👑 VIP PREMIUM VIDEOS</h4>';
+            
+            if (!appData.isVIP) {
+                vipVideoList.style.display = 'none';
+                return;
+            }
+            
+            vipVideoList.style.display = 'block';
+            
+            for (let i = 1; i <= 150; i++) {
+                const videoItem = document.createElement('div');
+                videoItem.className = 'video-item';
+                videoItem.style.border = '2px solid rgba(255, 215, 0, 0.3)';
+                videoItem.style.background = 'rgba(255, 215, 0, 0.1)';
+                
+                const isWatched = appData.vipWatchedVideos.includes(i);
+                const earnings = appData.usedReferralId ? 0.9398 : 0.895; // 5% bonus if referral used
+                
+                // Get random VIP video info for display
+                const randomVideo = getRandomVideo(true);
+                
+                videoItem.innerHTML = `
+                    <div class="video-info">
+                        <div class="video-title" style="color: #ffd700;">${randomVideo.title}</div>
+                        <div class="video-reward" style="color: #ffd700;">💰 +$${earnings.toFixed(3)}</div>
+                    </div>
+                    <button class="video-btn" id="vipVideoBtn${i}" onclick="watchVIPVideo(${i})" ${isWatched ? 'disabled' : ''} style="background: linear-gradient(135deg, #ffd700, #ffb347); color: #000;">
+                        ${isWatched ? '✅ Completed' : '👑 Watch VIP'}
+                    </button>
+                `;
+                
+                vipVideoList.appendChild(videoItem);
+            }
         }
 
         // Update video statistics
@@ -983,54 +1262,257 @@
             
             document.getElementById('watchedCount').textContent = watchedCount;
             document.getElementById('availableVideos').textContent = availableCount;
+            
+            // Update VIP stats
+            const vipWatchedCount = appData.vipWatchedVideos.length;
+            const vipAvailableCount = 150 - vipWatchedCount;
+            
+            document.getElementById('vipWatchedCount').textContent = vipWatchedCount;
+            document.getElementById('availableVipVideos').textContent = vipAvailableCount;
         }
 
-        // Watch video function
+        // Update VIP status display
+        function updateVIPStatus() {
+            const vipStatus = document.getElementById('vipStatus');
+            
+            if (appData.isVIP) {
+                vipStatus.innerHTML = `
+                    <div style="background: rgba(74, 222, 128, 0.2); padding: 20px; border-radius: 15px; border: 2px solid rgba(74, 222, 128, 0.4);">
+                        <div style="font-size: 18px; font-weight: 700; color: #4ade80; margin-bottom: 15px;">✅ VIP ACCESS ACTIVE</div>
+                        <div style="font-size: 14px; color: rgba(255, 255, 255, 0.8); margin-bottom: 10px;">
+                            🎉 You have lifetime access to all 150 premium videos!<br>
+                            💰 Earn $0.895 per video (or $0.940 with referral bonus)
+                        </div>
+                        <div style="font-size: 12px; color: #4ade80; font-weight: 600;">
+                            👑 VIP Member Since: ${new Date(appData.vipPurchaseDate).toLocaleDateString()}
+                        </div>
+                    </div>
+                `;
+            }
+        }
+
+        // Purchase VIP function
+        function purchaseVIP() {
+            document.getElementById('vipModalBalance').textContent = appData.balance.toFixed(2);
+            
+            // Check if user has sufficient balance
+            if (appData.balance < 10) {
+                document.getElementById('vipPurchaseBtn').disabled = true;
+                document.getElementById('vipPurchaseBtn').style.opacity = '0.5';
+                document.getElementById('vipPurchaseBtn').textContent = '❌ Insufficient Balance';
+            } else {
+                document.getElementById('vipPurchaseBtn').disabled = false;
+                document.getElementById('vipPurchaseBtn').style.opacity = '1';
+                document.getElementById('vipPurchaseBtn').textContent = '👑 Purchase VIP Access';
+            }
+            
+            document.getElementById('vipModal').style.display = 'block';
+        }
+
+        // Confirm VIP purchase
+        function confirmVIPPurchase() {
+            if (appData.balance < 10) {
+                showNotification('❌ Insufficient balance! You need at least $10.00 to purchase VIP access.', 'error');
+                return;
+            }
+            
+            if (appData.isVIP) {
+                showNotification('⚠️ You already have VIP access!', 'warning');
+                closeModal('vipModal');
+                return;
+            }
+            
+            // Deduct $10 from balance and activate VIP
+            appData.balance -= 10;
+            appData.isVIP = true;
+            appData.vipPurchaseDate = new Date().toISOString();
+            
+            saveData();
+            updateDisplay();
+            generateVIPVideoList();
+            updateVIPStatus();
+            
+            showNotification('🎉 VIP ACCESS ACTIVATED! You now have access to 150 premium videos earning $0.895 each!', 'success');
+            closeModal('vipModal');
+        }
+
+        // Watch video function with real video player
         function watchVideo(videoId) {
             if (appData.watchedVideos.includes(videoId)) {
                 showNotification('⚠️ You have already watched this video today!', 'warning');
                 return;
             }
 
+            // Get random video
+            const randomVideo = getRandomVideo(false);
+            
+            // Show modal and setup video
             document.getElementById('videoModal').style.display = 'block';
+            document.getElementById('videoModalTitle').textContent = '🎬 ' + randomVideo.title;
+            document.getElementById('currentVideoTitle').textContent = randomVideo.title;
+            document.getElementById('currentVideoDescription').textContent = randomVideo.description;
+            document.getElementById('videoInfoDisplay').style.display = 'block';
+            
+            // Setup video player
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoSource = document.getElementById('videoSource');
+            videoSource.src = randomVideo.url;
+            videoPlayer.load();
+            videoPlayer.style.display = 'block';
+            
+            // Reset progress and status
             document.getElementById('videoProgress').style.width = '0%';
-            document.getElementById('videoStatus').textContent = '🎬 Video starting...';
+            document.getElementById('videoStatus').textContent = '🎬 Video is ready! Click play to start earning...';
             document.getElementById('videoCloseBtn').style.display = 'none';
 
-            // Simulate video watching progress
-            let progress = 0;
-            const interval = setInterval(() => {
-                progress += 2;
-                document.getElementById('videoProgress').style.width = progress + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    // Calculate earnings with referral bonus
-                    let earnings = 0.5;
-                    if (appData.usedReferralId) {
-                        earnings = 0.525; // 5% bonus
+            let hasEarned = false;
+            let watchTime = 0;
+            const requiredWatchTime = Math.min(randomVideo.duration, 30); // Max 30 seconds required
+
+            // Video event listeners
+            videoPlayer.onplay = function() {
+                document.getElementById('videoStatus').textContent = `⏱️ Watch for ${requiredWatchTime} seconds to earn your reward...`;
+            };
+
+            videoPlayer.ontimeupdate = function() {
+                if (!hasEarned) {
+                    watchTime = videoPlayer.currentTime;
+                    const progress = Math.min((watchTime / requiredWatchTime) * 100, 100);
+                    document.getElementById('videoProgress').style.width = progress + '%';
+                    
+                    if (watchTime >= requiredWatchTime) {
+                        hasEarned = true;
+                        completeVideoWatch(videoId);
                     }
-                    
-                    // Add earnings
-                    appData.balance += earnings;
-                    appData.totalEarned += earnings;
-                    appData.watchedVideos.push(videoId);
-                    
-                    // Update button
-                    const btn = document.getElementById('videoBtn' + videoId);
-                    btn.disabled = true;
-                    btn.textContent = '✅ Completed';
-                    
-                    const bonusText = appData.usedReferralId ? ' (🎁 +5% referral bonus!)' : '';
-                    document.getElementById('videoStatus').textContent = `🎉 Video completed! +$${earnings.toFixed(3)} earned${bonusText}`;
-                    document.getElementById('videoCloseBtn').style.display = 'inline-block';
-                    
-                    updateDisplay();
-                    updateVideoStats();
-                    saveData();
-                    showNotification(`🎉 Congratulations! You earned $${earnings.toFixed(3)}${bonusText}`, 'success');
                 }
-            }, 100);
+            };
+
+            videoPlayer.onended = function() {
+                if (!hasEarned && watchTime >= requiredWatchTime * 0.8) { // 80% completion also counts
+                    hasEarned = true;
+                    completeVideoWatch(videoId);
+                }
+            };
+        }
+
+        // Watch VIP video function with real video player
+        function watchVIPVideo(videoId) {
+            if (!appData.isVIP) {
+                showNotification('❌ VIP access required! Purchase VIP to watch premium videos.', 'error');
+                return;
+            }
+
+            if (appData.vipWatchedVideos.includes(videoId)) {
+                showNotification('⚠️ You have already watched this VIP video today!', 'warning');
+                return;
+            }
+
+            // Get random VIP video
+            const randomVideo = getRandomVideo(true);
+            
+            // Show modal and setup video
+            document.getElementById('videoModal').style.display = 'block';
+            document.getElementById('videoModalTitle').textContent = '👑 ' + randomVideo.title;
+            document.getElementById('currentVideoTitle').textContent = randomVideo.title;
+            document.getElementById('currentVideoDescription').textContent = randomVideo.description;
+            document.getElementById('videoInfoDisplay').style.display = 'block';
+            
+            // Setup video player
+            const videoPlayer = document.getElementById('videoPlayer');
+            const videoSource = document.getElementById('videoSource');
+            videoSource.src = randomVideo.url;
+            videoPlayer.load();
+            videoPlayer.style.display = 'block';
+            
+            // Reset progress and status
+            document.getElementById('videoProgress').style.width = '0%';
+            document.getElementById('videoStatus').textContent = '👑 VIP Premium video is ready! Click play to start earning...';
+            document.getElementById('videoCloseBtn').style.display = 'none';
+
+            let hasEarned = false;
+            let watchTime = 0;
+            const requiredWatchTime = Math.min(randomVideo.duration, 40); // Max 40 seconds for VIP
+
+            // Video event listeners
+            videoPlayer.onplay = function() {
+                document.getElementById('videoStatus').textContent = `⏱️ Watch for ${requiredWatchTime} seconds to earn your VIP reward...`;
+            };
+
+            videoPlayer.ontimeupdate = function() {
+                if (!hasEarned) {
+                    watchTime = videoPlayer.currentTime;
+                    const progress = Math.min((watchTime / requiredWatchTime) * 100, 100);
+                    document.getElementById('videoProgress').style.width = progress + '%';
+                    
+                    if (watchTime >= requiredWatchTime) {
+                        hasEarned = true;
+                        completeVIPVideoWatch(videoId);
+                    }
+                }
+            };
+
+            videoPlayer.onended = function() {
+                if (!hasEarned && watchTime >= requiredWatchTime * 0.8) { // 80% completion also counts
+                    hasEarned = true;
+                    completeVIPVideoWatch(videoId);
+                }
+            };
+        }
+
+        // Complete regular video watch
+        function completeVideoWatch(videoId) {
+            let earnings = 0.5; // Full $0.50 - NO DEDUCTIONS
+            if (appData.usedReferralId) {
+                earnings = 0.525; // Full 5% bonus - NO DEDUCTIONS
+            }
+            
+            // Add full earnings directly to user balance
+            appData.balance += earnings;
+            appData.totalEarned += earnings;
+            appData.watchedVideos.push(videoId);
+            
+            // Update button
+            const btn = document.getElementById('videoBtn' + videoId);
+            btn.disabled = true;
+            btn.textContent = '✅ Completed';
+            
+            const bonusText = appData.usedReferralId ? ' (🎁 +5% referral bonus!)' : '';
+            document.getElementById('videoStatus').textContent = `🎉 Video completed! +$${earnings.toFixed(3)} earned - 100% YOURS!${bonusText}`;
+            document.getElementById('videoCloseBtn').style.display = 'inline-block';
+            document.getElementById('videoProgress').style.width = '100%';
+            
+            updateDisplay();
+            updateVideoStats();
+            saveData();
+            showNotification(`🎉 100% COMMISSION-FREE! You earned $${earnings.toFixed(3)} - ALL YOURS!${bonusText}`, 'success');
+        }
+
+        // Complete VIP video watch
+        function completeVIPVideoWatch(videoId) {
+            let earnings = 0.895; // Premium $0.895 - NO DEDUCTIONS
+            if (appData.usedReferralId) {
+                earnings = 0.9398; // 5% bonus on VIP earnings
+            }
+            
+            // Add full VIP earnings directly to user balance
+            appData.balance += earnings;
+            appData.totalEarned += earnings;
+            appData.vipWatchedVideos.push(videoId);
+            
+            // Update button
+            const btn = document.getElementById('vipVideoBtn' + videoId);
+            btn.disabled = true;
+            btn.textContent = '✅ Completed';
+            
+            const bonusText = appData.usedReferralId ? ' (🎁 +5% VIP bonus!)' : '';
+            document.getElementById('videoStatus').textContent = `🎉 VIP video completed! +$${earnings.toFixed(3)} earned - PREMIUM REWARDS!${bonusText}`;
+            document.getElementById('videoCloseBtn').style.display = 'inline-block';
+            document.getElementById('videoProgress').style.width = '100%';
+            
+            updateDisplay();
+            updateVideoStats();
+            saveData();
+            showNotification(`👑 VIP PREMIUM! You earned $${earnings.toFixed(3)} - MAXIMUM EARNINGS!${bonusText}`, 'success');
         }
 
         // Modal functions
@@ -1044,104 +1526,66 @@
 
         function closeModal(modalId) {
             document.getElementById(modalId).style.display = 'none';
+            
+            // Reset video modal when closing
+            if (modalId === 'videoModal') {
+                const videoPlayer = document.getElementById('videoPlayer');
+                videoPlayer.pause();
+                videoPlayer.currentTime = 0;
+                videoPlayer.style.display = 'none';
+                document.getElementById('videoInfoDisplay').style.display = 'none';
+            }
         }
 
-        // Process deposit with ULTRA-STRICT multi-step verification
+        // Process deposit with simple verification
         function processDeposit() {
-            const amount = parseFloat(document.getElementById('depositAmount').value);
-            const verifyAddress = document.getElementById('verifyAddress').value.trim();
             const verifyTxHash = document.getElementById('verifyTxHash').value.trim();
-            const verifySenderAddress = document.getElementById('verifySenderAddress').value.trim();
-            const correctAddress = 'TJu2Dsrv4FA1cV4yUWTzbyFUqxX5hoHkec';
             
-            // Reset all input styling
-            document.getElementById('verifyAddress').style.borderColor = 'rgba(255, 255, 255, 0.2)';
+            // Reset input styling
             document.getElementById('verifyTxHash').style.borderColor = 'rgba(255, 255, 255, 0.2)';
-            document.getElementById('verifySenderAddress').style.borderColor = 'rgba(255, 255, 255, 0.2)';
             
-            // STEP 1: Amount validation - absolutely no deposits under $15
-            if (!amount || amount < 15) {
-                showNotification('❌ STEP 1 FAILED: Minimum deposit is $15.00. Please enter at least $15.', 'error');
-                return;
+            // Optional transaction hash validation - if provided, check format
+            if (verifyTxHash && verifyTxHash.length > 0) {
+                // Check if it looks like a valid transaction hash (basic check)
+                if (verifyTxHash.length < 20) {
+                    showNotification('⚠️ Transaction hash seems too short. Please double-check and enter the complete hash.', 'warning');
+                    document.getElementById('verifyTxHash').style.borderColor = '#f59e0b';
+                    return;
+                }
+                
+                // Check for duplicate transaction hash
+                const existingDeposit = appData.pendingDeposits.find(d => d.transactionHash === verifyTxHash);
+                if (existingDeposit) {
+                    showNotification('⚠️ This transaction hash has already been used. Each deposit needs a unique transaction.', 'warning');
+                    document.getElementById('verifyTxHash').style.borderColor = '#f59e0b';
+                    return;
+                }
             }
             
-            // STEP 2: Address verification - must match exactly
-            if (!verifyAddress) {
-                showNotification('🔐 STEP 1 FAILED: You must enter the EXACT USDT address you sent money to. This is basic proof you actually made a transaction.', 'error');
-                document.getElementById('verifyAddress').style.borderColor = '#ef4444';
-                document.getElementById('verifyAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
-                return;
+            // Success styling
+            if (verifyTxHash) {
+                document.getElementById('verifyTxHash').style.borderColor = '#4ade80';
+                document.getElementById('verifyTxHash').style.boxShadow = '0 0 20px rgba(74, 222, 128, 0.7)';
             }
             
-            if (verifyAddress !== correctAddress) {
-                showNotification('❌ STEP 1 FAILED: Wrong deposit address! Only users who actually sent USDT will know our correct address. Fake deposits are automatically rejected.', 'error');
-                document.getElementById('verifyAddress').style.borderColor = '#ef4444';
-                document.getElementById('verifyAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
-                return;
-            }
-            
-            // STEP 3: Transaction hash verification
-            if (!verifyTxHash || verifyTxHash.length < 40) {
-                showNotification('❌ STEP 2 FAILED: You must provide a valid transaction hash (TxID). This proves the transaction actually exists on the blockchain.', 'error');
-                document.getElementById('verifyTxHash').style.borderColor = '#ef4444';
-                document.getElementById('verifyTxHash').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
-                return;
-            }
-            
-            // STEP 4: Sender address verification
-            if (!verifySenderAddress || verifySenderAddress.length < 25) {
-                showNotification('❌ STEP 3 FAILED: You must provide your sender wallet address. This proves you control the wallet that sent the USDT.', 'error');
-                document.getElementById('verifySenderAddress').style.borderColor = '#ef4444';
-                document.getElementById('verifySenderAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
-                return;
-            }
-            
-            // Additional security: Check if transaction hash looks valid (basic format check)
-            if (!verifyTxHash.match(/^[a-fA-F0-9]{40,}$/)) {
-                showNotification('❌ INVALID TRANSACTION HASH: The transaction hash format is incorrect. Please copy the exact TxID from your wallet.', 'error');
-                document.getElementById('verifyTxHash').style.borderColor = '#ef4444';
-                document.getElementById('verifyTxHash').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
-                return;
-            }
-            
-            // Additional security: Check if sender address looks valid (basic format check)
-            if (!verifySenderAddress.match(/^T[a-zA-Z0-9]{33}$/)) {
-                showNotification('❌ INVALID SENDER ADDRESS: The wallet address format is incorrect. TRON addresses start with "T" and are 34 characters long.', 'error');
-                document.getElementById('verifySenderAddress').style.borderColor = '#ef4444';
-                document.getElementById('verifySenderAddress').style.boxShadow = '0 0 15px rgba(239, 68, 68, 0.5)';
-                return;
-            }
-            
-            // Success styling for all inputs
-            document.getElementById('verifyAddress').style.borderColor = '#4ade80';
-            document.getElementById('verifyAddress').style.boxShadow = '0 0 15px rgba(74, 222, 128, 0.5)';
-            document.getElementById('verifyTxHash').style.borderColor = '#4ade80';
-            document.getElementById('verifyTxHash').style.boxShadow = '0 0 15px rgba(74, 222, 128, 0.5)';
-            document.getElementById('verifySenderAddress').style.borderColor = '#4ade80';
-            document.getElementById('verifySenderAddress').style.boxShadow = '0 0 15px rgba(74, 222, 128, 0.5)';
-            
-            // Create pending deposit record with ALL verification data (NO BALANCE ADDED)
+            // Create pending deposit record
             const depositId = 'DEP' + Date.now();
             appData.pendingDeposits.push({
                 id: depositId,
-                amount: amount,
+                amount: 0, // Amount will be determined by admin when verifying
                 timestamp: new Date().toISOString(),
                 status: 'pending',
-                verifiedAddress: verifyAddress,
-                transactionHash: verifyTxHash,
-                senderAddress: verifySenderAddress,
-                verificationLevel: 'ULTRA_SECURE'
+                transactionHash: verifyTxHash || 'Not provided',
+                verificationLevel: 'SIMPLE',
+                note: 'User deposit request - amount to be verified by admin'
             });
             
             saveData();
-            showNotification('🎉 ALL VERIFICATION STEPS PASSED! You have successfully proven you sent USDT with: ✅ Correct address ✅ Valid transaction hash ✅ Valid sender address. Deposit pending admin approval (24-48 hours).', 'success');
+            showNotification(`✅ Deposit request submitted! Your deposit will be verified and added to your balance within 12-24 hours.`, 'success');
             closeModal('depositModal');
             
-            // Clear all inputs
-            document.getElementById('depositAmount').value = '';
-            document.getElementById('verifyAddress').value = '';
+            // Clear inputs
             document.getElementById('verifyTxHash').value = '';
-            document.getElementById('verifySenderAddress').value = '';
         }
 
         // Process withdrawal
@@ -1264,7 +1708,8 @@
         // Close modals when clicking outside
         window.onclick = function(event) {
             if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
+                const modalId = event.target.id;
+                closeModal(modalId);
             }
         }
 
@@ -1301,10 +1746,10 @@
                     depositItem.innerHTML = `
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
                             <div>
-                                <div style="font-weight: 600; font-size: 18px;">$${deposit.amount.toFixed(2)}</div>
+                                <div style="font-weight: 600; font-size: 18px;">💰 Deposit Request</div>
                                 <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">ID: ${deposit.id}</div>
                                 <div style="font-size: 12px; color: rgba(255, 255, 255, 0.6);">${new Date(deposit.timestamp).toLocaleString()}</div>
-                                ${deposit.verificationLevel === 'ULTRA_SECURE' ? '<div style="font-size: 11px; color: #4ade80; font-weight: 600;">🔐 ULTRA-SECURE VERIFIED</div>' : ''}
+                                <div style="font-size: 11px; color: #4ade80; font-weight: 600;">📝 Amount to be verified by admin</div>
                             </div>
                             <div style="color: #fbbf24; font-weight: 600;">⏳ Pending</div>
                         </div>
@@ -1324,6 +1769,9 @@
                         </div>
                         ` : ''}
                         
+                        <div style="margin: 15px 0;">
+                            <input type="number" id="adminAmount_${deposit.id}" placeholder="Enter deposit amount ($15 minimum)" min="15" step="0.01" style="width: 100%; padding: 12px; border: 2px solid rgba(255, 255, 255, 0.2); border-radius: 8px; background: rgba(255, 255, 255, 0.1); color: white; font-size: 14px; margin-bottom: 10px;">
+                        </div>
                         <div style="display: flex; gap: 10px;">
                             <button onclick="approveDeposit('${deposit.id}')" style="flex: 1; background: linear-gradient(135deg, #4ade80, #22c55e); color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; font-weight: 600;">
                                 ✅ Approve & Add Balance
@@ -1340,13 +1788,22 @@
 
         function approveDeposit(depositId) {
             const deposit = appData.pendingDeposits.find(d => d.id === depositId);
+            const amountInput = document.getElementById(`adminAmount_${depositId}`);
+            const amount = parseFloat(amountInput.value);
+            
+            if (!amount || amount < 15) {
+                showNotification('❌ Please enter a valid amount ($15 minimum)', 'error');
+                return;
+            }
+            
             if (deposit) {
                 deposit.status = 'completed';
-                appData.balance += deposit.amount;
+                deposit.amount = amount;
+                appData.balance += amount;
                 saveData();
                 updateDisplay();
                 updateAdminDepositList();
-                showNotification(`✅ Deposit of $${deposit.amount.toFixed(2)} approved and added to user balance!`, 'success');
+                showNotification(`✅ Deposit of $${amount.toFixed(2)} approved and added to user balance!`, 'success');
             }
         }
 
@@ -1373,6 +1830,8 @@
                     referralEarnings: 0.00,
                     referralCode: 'REF' + Math.random().toString(36).substr(2, 6).toUpperCase(),
                     watchedVideos: [],
+                    vipWatchedVideos: [],
+                    isVIP: false,
                     pendingDeposits: []
                 };
                 updateDisplay();
@@ -1385,9 +1844,10 @@
         function resetDailyVideos() {
             if (confirm('🔄 Reset all daily videos for all users?')) {
                 appData.watchedVideos = [];
+                appData.vipWatchedVideos = [];
                 saveData();
                 generateVideoList();
-                showNotification('🔄 Daily videos reset! Users can watch all videos again.', 'success');
+                showNotification('🔄 Daily videos reset! Users can watch all videos again (including VIP).', 'success');
             }
         }
 
@@ -1400,6 +1860,7 @@
             const today = new Date().toDateString();
             if (lastReset !== today) {
                 appData.watchedVideos = [];
+                appData.vipWatchedVideos = [];
                 localStorage.setItem('lastResetEarnMax', today);
                 saveData();
             }
@@ -1408,5 +1869,5 @@
             generateVideoList();
         });
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96e2c07d51c1ddd0',t:'MTc1NTAzMDg1MC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'96e35441665eddd1',t:'MTc1NTAzNjkwMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
